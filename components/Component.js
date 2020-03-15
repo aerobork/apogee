@@ -12,14 +12,16 @@ class Component {
         return this.mass;
     }
 
-    getNormal() {}
+    _calcNormal() {}
 
-    getDrag() {}
+    _calcDrag() {}
 
-    getLift() {}
+    _calcLift() {}
 
-    getCP() {}
+    _calcCP() {}
 
-    getCG() {}
+    _calcCG() {}
 
 }
+
+export default Component;
