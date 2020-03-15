@@ -1,0 +1,9 @@
+Naming conventions for variables in BORK
+
+angle of attack -> angle
+aref -> aref
+dref -> dref
+v0 -> v0
+rho -> p
+coefficient of normal force -> Cn
+coefficient of moment -> Cm
