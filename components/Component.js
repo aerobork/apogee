@@ -14,13 +14,33 @@ class Component {
 
     _calcNormal() {}
 
+    getNormal() {}
+
     _calcDrag() {}
+
+    getDrag() {}
 
     _calcLift() {}
 
+    getLift() {}
+
     _calcCP() {}
 
+    getCP() {}
+
+    setCP(CP) {
+        this.CP = CP; 
+    }
+
     _calcCG() {}
+
+    getCG() {
+        return this.CG;
+    }
+
+    setCG(CG) {
+        this.CG = CG;
+    }
 
 }
 
