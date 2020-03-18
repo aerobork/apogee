@@ -1,11 +1,11 @@
 "use strict"
 const AxialComponent = require("./axialComponent.js");
 
-class BodyTube extends AxialComponent {
+class Transition extends AxialComponent {
 
-    constructor(radius, innerRadius, length, density, angle, aref, dref, v0, p) {
+    constructor(foreRadius, aftRadius, length, density, angle, aref, dref, v0, p) {
 
-        super([[radius, 0], [radius, length]], density, angle, aref, dref, v0, p);
+        super([[aftRadius, 0], [foreRadius, length]], density, angle, aref, dref, v0, p);
         this.innerRadius = innerRadius;
     }
 
@@ -19,7 +19,7 @@ class BodyTube extends AxialComponent {
 
     _calcCG() {
         this.cg = this.length / 2;
-
+        
         return this.cg;
     }   
 }

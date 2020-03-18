@@ -16,7 +16,9 @@ class AxialComponent extends Component {
             aref: aref,
             dref: dref,
             v0: v0,
-            p: 0            
+            p: 0,
+            overrideMass: false,
+            overrideCG: false 
         }
 
         this.startRadius = this.state.points[0][0];
@@ -31,16 +33,39 @@ class AxialComponent extends Component {
         }
 
         this._calcVolume();
-        this._calcMass();
+        
+        if (!this.state.overrideMass){
+            this._calcMass();
+        }
+
         this._calcPlanformArea();
 
-        this._calcCG();
+        if (!this.state.overrideCG){
+            this._calcCG();
+        }
+
         this._calcCP();
         this._calcCL();
 
         this._calcNormal();
         this._calcLift();
 
+    }
+
+    setMass(mass) {
+        this.mass = mass;
+
+        this.setState({
+            overrideMass: true
+        })
+    }
+
+    setCG(cg) {
+        this.cg = cg;
+
+        this.setState({
+            overrideCG: true
+        })
     }
 
     getRadius(x) {
