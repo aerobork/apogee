@@ -5,12 +5,20 @@ class BodyTube extends AxialComponent {
 
     constructor(radius, innerRadius, length, density, angle, aref, dref, v0, p) {
 
-        super(radius, radius, length, density, angle, aref, dref, v0, p);
+        super([[radius, 0], [radius, length]], density, angle, aref, dref, v0, p);
+        this.state.points = null;
+        this.state.radius = radius;
         this.state.innerRadius = innerRadius;
+        this.state.length = length;
+    }
+
+    _calcPoints() {
+        this.points = [[this.state.radius, 0], [this.state.radius, this.state.length]];
+        return this.points;
     }
 
     _calcMass() {
-        this.mass = (this.state.startRadius**2 - (this.state.innerRadius)**2) * Math.PI * this.state.length * this.state.density;
+        this.mass = (this.state.radius**2 - (this.state.innerRadius)**2) * Math.PI * this.state.length * this.state.density;
     }
 
     _calcCG() {

@@ -5,10 +5,11 @@ class Transition extends AxialComponent {
 
     constructor(startRadius, endRadius, length, density, thickness, angle, aref, dref, v0, p) {
 
-        super(startRadius, endRadius, length, density, angle, aref, dref, v0, p);
-        // this.state.foreRadius = foreRadius;
-        // this.state.aftRadius = aftRadius;
-        // this.state.length = length;
+        super([[startRadius, 0],[endRadius, length]], density, angle, aref, dref, v0, p);
+        this.state.points = null;
+        this.state.startRadius = startRadius;
+        this.state.endRadius = endRadius;
+        this.state.length = length;
         this.state.thickness = thickness;
     }
 
@@ -19,6 +20,11 @@ class Transition extends AxialComponent {
 
         // this.state.points = [[this.state.aftRadius, 0], [this.state.foreRadius, this.state.length]];
         super.setState(newState);
+    }
+
+    _calcPoints() {
+        this.points = [[this.state.startRadius, 0], [this.state.endRadius, this.state.length]];
+        return this.points; 
     }
 
     _calcMass() {
