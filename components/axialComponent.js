@@ -2,7 +2,7 @@
 const Component = require("./Component.js");
 
 class AxialComponent extends Component {
-    constructor (points, density, angle, aref, dref, v0, p) {
+    constructor (startRadius, endRadius, length, density, angle, aref, dref, v0, p) {
         `
             points -> [[float, float], ...]: a list of points centered around the x = 0 line describing the profile of the axially symmetric component
             density -> float: density of the material in g/cm^3
@@ -10,7 +10,9 @@ class AxialComponent extends Component {
         super();
 
         this.state = {
-            points: points,
+            startRadius: startRadius,
+            endRadius: endRadius,
+            length: length,
             density: density,
             angle: angle,
             aref: aref,
@@ -21,9 +23,9 @@ class AxialComponent extends Component {
             overrideCG: false 
         }
 
-        this.startRadius = this.state.points[0][0];
-        this.endRadius = this.state.points[this.state.points.length - 1][0];
-        this.length = this.state.points[this.state.points.length - 1][1] - this.state.points[0][1];
+        // this.startRadius = this.state.points[0][0];
+        // this.endRadius = this.state.points[this.state.points.length - 1][0];
+        // this.length = this.state.points[this.state.points.length - 1][1] - this.state.points[0][1];
 
     }
 
@@ -31,6 +33,12 @@ class AxialComponent extends Component {
         for (let key in newState) {
             this.state[key] = newState[key]; 
         }
+
+        // this.startRadius = this.state.points[0][0];
+        // this.endRadius = this.state.points[this.state.points.length - 1][0];
+        // this.length = this.state.points[this.state.points.length - 1][1] - this.state.points[0][1];
+
+        this._calcPoints();
 
         this._calcVolume();
         
@@ -52,6 +60,11 @@ class AxialComponent extends Component {
 
     }
 
+    _calcPoints() {
+        this.points = [[this.state.startRadius, 0], [this.state.endRadius, this.state.length]];
+        return this.points;
+    }
+
     setMass(mass) {
         this.mass = mass;
 
@@ -70,9 +83,9 @@ class AxialComponent extends Component {
 
     getRadius(x) {
 
-        for (let i = 0; i < this.state.points.length; i++){
+        for (let i = 0; i < this.points.length; i++){
             if (point[i][1] > x){
-                let prev = this.state.points[i- 1];
+                let prev = this.points[i- 1];
                 let height = point[1] - prev[1];
 
                 let radius = prev[0] + (point[0] - prev[0]) * (x - prev[1]) / height;
@@ -86,10 +99,10 @@ class AxialComponent extends Component {
     _calcVolume() {
         // volume of truncated cone: (r^2 + Rr + R^2) * 1/3 h * pi
         this.volume = 0
-        this.state.points.map((point, idx) => {
-            if (idx != this.state.points.length - 1) {
-                let current = this.state.points[idx];
-                let next = this.state.points[idx + 1];
+        this.points.map((point, idx) => {
+            if (idx != this.points.length - 1) {
+                let current = this.points[idx];
+                let next = this.points[idx + 1];
 
 
                 this.volume += (current[0] * current[0] + current[0] * next[0] + next[0] * next[0]) * 1/3 * (next[1] - current[1]) * Math.PI;  
@@ -101,10 +114,10 @@ class AxialComponent extends Component {
 
     _calcPlanformArea() {
         this.planformArea = 0
-        this.state.points.map((point, idx) => {
-            if (idx != this.state.points.length - 1) {
-                let current = this.state.points[idx];
-                let next = this.state.points[idx + 1];
+        this.points.map((point, idx) => {
+            if (idx != this.points.length - 1) {
+                let current = this.points[idx];
+                let next = this.points[idx + 1];
 
                 this.planformArea += 0.5 * (2 * current[0] + 2 * next[0]) * (next[1] - current[1]);
             }
@@ -113,7 +126,7 @@ class AxialComponent extends Component {
     }
 
     _calcNormal() {
-        this.Cn = 2 * Math.sin(this.state.angle) / (this.state.aref) * ((this.endRadius ** 2 - this.startRadius ** 2) * Math.PI);
+        this.Cn = 2 * Math.sin(this.state.angle) / (this.state.aref) * ((this.state.endRadius ** 2 - this.state.startRadius ** 2) * Math.PI);
         return this.Cn;
     }
 
@@ -126,10 +139,10 @@ class AxialComponent extends Component {
     _calcCL() {
         let sum = 0;
         
-        this.state.points.map((point, idx) => {
-            if (idx != this.state.points.length - 1) {
-                let current = this.state.points[idx];
-                let next = this.state.points[idx + 1];
+        this.points.map((point, idx) => {
+            if (idx != this.points.length - 1) {
+                let current = this.points[idx];
+                let next = this.points[idx + 1];
 
                 let R = current[0];
                 let r = next[0];
@@ -150,8 +163,8 @@ class AxialComponent extends Component {
         //this.Cm = 2 * Math.sin(this.angle) / (this.aref * this.dref) * (this.length * this.endRadius ** 2 * Math.PI - this.volume);
         //this.cp = this.Cm / this.Cn * 
 
-        let endArea = this.endRadius ** 2 * Math.PI;
-        this.cp = (this.length * endArea - this.volume) / (endArea - this.startRadius ** 2 * Math.PI);
+        let endArea = this.state.endRadius ** 2 * Math.PI;
+        this.cp = (this.state.length * endArea - this.volume) / (endArea - this.state.startRadius ** 2 * Math.PI);
 
         return this.cp;
     }
@@ -165,10 +178,10 @@ class AxialComponent extends Component {
     _calcCG() {
         let sum = 0;
 
-        this.state.points.map((point, idx) => {
-            if (idx != this.state.points.length - 1) {
-                let current = this.state.points[idx];
-                let next = this.state.points[idx + 1];
+        this.points.map((point, idx) => {
+            if (idx != this.points.length - 1) {
+                let current = this.points[idx];
+                let next = this.points[idx + 1];
 
                 let R = current[0];
                 let r = next[0];
