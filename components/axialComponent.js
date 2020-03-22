@@ -21,9 +21,9 @@ class AxialComponent extends Component {
             overrideCG: false 
         }
 
-        this.startRadius = this.state.points[0][0];
-        this.endRadius = this.state.points[this.state.points.length - 1][0];
-        this.length = this.state.points[this.state.points.length - 1][1] - this.state.points[0][1];
+        this.startRadius = points[0][0];
+        this.endRadius = points[points.length - 1][0];
+        this.length = points[points.length - 1][1] - points[0][1];
 
     }
 
@@ -36,7 +36,7 @@ class AxialComponent extends Component {
 
         this.startRadius = this.points[0][0];
         this.endRadius = this.points[this.points.length - 1][0];
-        this.length = this.state.points[this.points.length - 1][1] - this.state.points[0][1];
+        this.length = this.points[this.points.length - 1][1] - this.points[0][1];
 
         this._calcVolume();
         
@@ -66,9 +66,11 @@ class AxialComponent extends Component {
     setMass(mass) {
         this.mass = mass;
 
+        
         this.setState({
             overrideMass: true
         })
+        
     }
 
     setCG(cg) {
@@ -175,6 +177,7 @@ class AxialComponent extends Component {
 
     _calcCG() {
         let sum = 0;
+        let massSum = 0;
 
         this.points.map((point, idx) => {
             if (idx != this.points.length - 1) {
@@ -189,10 +192,11 @@ class AxialComponent extends Component {
                 let mass = (R**2 + R * r + r**2) * 1/3 * h * Math.PI * this.state.density;
 
                 sum += com * mass;
+                massSum += mass;
             }
         })
 
-        this.cg = sum / this.mass;
+        this.cg = sum / massSum;
 
         return this.cg;
     }   
