@@ -41,7 +41,7 @@ class Transition extends AxialComponent {
         let x = this.state.thickness * Math.sin(theta);
         let r = this.state.endRadius - x;
         let R = this.state.startRadius - x;
-        let h = this.state.length - 2 * this.state.thickness;
+        let h = this.state.length;
         let comInner = h * (R**2 + 2 * R * r + 3 * r**2) / (4 * (R**2 + R * r + r**2));
         let massInner = (R**2 + R * r + r**2) * 1/3 * h * Math.PI * this.state.density;
         
