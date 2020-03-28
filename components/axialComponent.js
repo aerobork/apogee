@@ -65,6 +65,7 @@ class AxialComponent extends Component {
 
     setMass(mass) {
         this.mass = mass;
+
         
         this.setState({
             overrideMass: true
