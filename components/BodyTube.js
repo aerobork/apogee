@@ -10,7 +10,6 @@ class BodyTube extends AxialComponent {
         this.state.radius = radius;
         this.state.innerRadius = innerRadius;
         this.state.length = length;
-        this._setState();
     }
 
     _calcPoints() {
