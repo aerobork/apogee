@@ -12,6 +12,7 @@ class Transition extends AxialComponent {
         this.state.length = length;
         this.state.thickness = thickness;
         this.state.filled = false;
+        this._setState();
     }
 
     _calcPoints() {
@@ -24,7 +25,7 @@ class Transition extends AxialComponent {
         let x = this.state.thickness / Math.sin(theta);
         let R = this.state.endRadius - x;
         let r = this.state.startRadius - x;
-        let h = this.state.length - 2 * this.state.thickness;
+        let h = this.state.length;
         let massInner = (R**2 + R * r + r**2) * 1/3 * h * Math.PI * this.state.density;
         this.mass = this.state.filled? this._calcVolume() * this.state.density : this._calcVolume() * this.state.density - massInner;
 
