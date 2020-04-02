@@ -32,9 +32,7 @@ class ComponentSeries extends Component {
 
     setMass(mass) {
         this.mass = mass;
-        
         this.overrideMass = true;
-        
     }
 
     _calcMass() {
@@ -48,6 +46,11 @@ class ComponentSeries extends Component {
         return this.mass;
     }
 
+    setCG(cg) {
+        this.CG = cg;
+        this.overrideCG = true;
+    }
+
     _calcCG() {
         let comSum = 0;
 
@@ -58,4 +61,17 @@ class ComponentSeries extends Component {
         this.cg = comSum / this._calcMass();
         return this.cg;
     }
+
+    _calcCP() {
+        let cpSum = 0;
+        let cnSum = 0;
+        this.componentList.map((component, idx) => {
+            cpSum += component.Cn * component.cp;
+            cnSum += component.Cn;
+        })
+
+        this.cp = cpSum / cnSum;
+        return this.cp;
+    }
+
 }
