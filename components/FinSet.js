@@ -27,7 +27,7 @@ class FinSet {
             overrideCG : false,
         }
 
-        this.freeFormPoints = points; // how are we dealing with this 
+        this.freeFormPoints = points; 
 
         this._setState();
     }
@@ -44,7 +44,7 @@ class FinSet {
                 let a = this.state.height;
                 let b = this.state.rootChord / 2;
                 for (let y = 0; y < this.state.length; y += 0.1) {
-                    x = ((1 - (y - b)**2 / b**2) / a**2)**0.5; // check this equation again
+                    x = ((1 - (y - b)**2 / b**2) / a**2)**0.5; 
                     points.push([x,y]);
                 }
                 break;
@@ -84,9 +84,8 @@ class FinSet {
 
     }
 
-    _calcCP() {
-
+    _calcCP() { 
+        
     }
 
-    
 }
