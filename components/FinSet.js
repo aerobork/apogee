@@ -1,5 +1,7 @@
 "use strict"
 
+const utils = require('../utils.js');
+
 class FinSet {
     constructor(shapeType, numFins, finRotation, finCant, rootChord, tipChord, height, 
                 sweepLength, sweepAngle, crossSection, position, points, density, thickness, angle, aref, dref, v0, p) {
@@ -85,7 +87,77 @@ class FinSet {
     }
 
     _calcCP() { 
-        
+        let x = 0;
+        let area = 0;
+
+        // loop
+        while (true){
+            let edges = utils.finIntersect(x, this.points, 0);
+
+            if (edges[0].length == 0 || edges[1].length == 0) {
+                break;
+            }
+
+            let b1 = edges[0][0][1] - edges[1][1][1]; 
+            let tx = edges[0][1][0];
+            let bx = edges[1][0][0];
+            
+            let divX = Math.min([tx, bx]);
+            let h = divX - x;
+
+            let b2 = utils.intersect(divX, edges[0]) - utils.intersect(divX, edges[1]);
+
+            // b1, b2, h
+            // int(Xle * C dy);
+            //Xle = y + m * x
+            //C = length + (m1 + m2) * x
+
+
+            /*integral 0->s(
+                y * l + 
+                (m1 + m2) * y * x +
+                m1 * x * l +
+                (m1 + m2) * m1 * x^2, dx
+            )*/
+
+
+            x = divX;
+
+            if (utils.equalTo(b2, 0)){
+                break;
+            }
+        }
+    }
+    }
+
+    _calcArea() {
+        let x = 0;
+        let area = 0;
+
+        // loop
+        while (true){
+            let edges = utils.finIntersect(x, this.points, 0);
+
+            if (edges[0].length == 0 || edges[1].length == 0) {
+                break;
+            }
+
+            let b1 = edges[0][0][1] - edges[1][1][1]; 
+            let tx = edges[0][1][0];
+            let bx = edges[1][0][0];
+            
+            let divX = Math.min([tx, bx]);
+            let h = divX - x;
+
+            let b2 = utils.intersect(divX, edges[0]) - utils.intersect(divX, edges[1]);
+
+            area += (b1 + b2) * h * 0.5;
+            x = divX;
+
+            if (utils.equalTo(b2, 0)){
+                break;
+            }
+        }
     }
 
 }
