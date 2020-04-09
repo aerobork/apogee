@@ -6,14 +6,14 @@ exports.finIntersect = function finIntersect(x, points, coord) {
     let topEdge = [];
     let bottomEdge = [];
 
-    this.points.map((point, idx) => {
-        if (x <= points[idx][coord] && x > points[idx + 1][coord]) {
+    for (let idx = 0; idx < points.length - 1; idx ++) {
+        if (x < points[idx][coord] && x >= points[idx + 1][coord]) {
             bottomEdge = [points[idx], points[idx + 1]];
         }
         if (x >= points[idx][coord] && x < points[idx + 1][coord]){
             topEdge = [points[idx], points[idx + 1]];
         }
-    })
+    }
 
     return [topEdge, bottomEdge];
 }
@@ -25,4 +25,8 @@ exports.intersect = function intersect(x, points) {
     return m * x + b;
 }
 
-modules.exports = exports;
+exports.equalTo = function equalTo(a, b, threshold = 0.0001) {
+    return (Math.abs(a - b) < threshold); 
+}
+
+module.exports = exports;
