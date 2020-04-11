@@ -3,9 +3,9 @@ const AxialComponent = require("./axialComponent.js");
 
 class Transition extends AxialComponent {
 
-    constructor(startRadius, endRadius, length, density, thickness, angle, aref, dref, v0, p) {
+    constructor(startRadius, endRadius, length, density, thickness, angle, aref, dref, v0, p, M) {
 
-        super([[startRadius, 0],[endRadius, length]], density, angle, aref, dref, v0, p);
+        super([[startRadius, 0],[endRadius, length]], density, angle, aref, dref, v0, p, M);
         this.state.points = null;
         this.state.startRadius = startRadius;
         this.state.endRadius = endRadius;
@@ -49,6 +49,13 @@ class Transition extends AxialComponent {
 
         return this.cg;
     }   
+
+    _calcCD() {
+        
+        let jointAngle = Math.atan2(this.points[this.points.length - 1][0] - this.points[this.points.length - 2][0], this.points[this.points.length - 1][1] - this.points[this.points.length - 2][1]);
+        let bodyDrag = 0.8 * Math.sin(jointAngle) ** 2;
+
+    }
 
     toggleFilled() {
         super.setState({filled: !this.state.filled});
