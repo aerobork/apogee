@@ -3,14 +3,14 @@ const AxialComponent = require("./axialComponent.js");
 
 class Nosecone extends AxialComponent {
     //TODO: Implement
-    constructor(radius, length, shapeType, shapeParameter, density, thickness, angle, aref, dref, v0, p) {
+    constructor(radius, length, shapeType, shapeParameter, density, thickness, angle, aref, dref, v0, p, M) {
         
         
         // let points = [];
         // for (let i = 0; i < length; i += 0.1) {
         //     points.push([i, shape(i)]);
         // }
-        super([], density, angle, aref, dref , v0, p);
+        super([[0,0]], density, angle, aref, dref , v0, p, M);
 
         this.state.points = null;
         this.state.thickness = thickness;
@@ -22,10 +22,11 @@ class Nosecone extends AxialComponent {
         this.state.shapeParameter = shapeParameter;
         this.state.filled = false;
 
-        this._setState();
+        this.setState();
     }
 
     _calcPoints() {
+        console.log(this.state.shapeType);
         let points = [];
 
         for (let y = 0; y < this.state.length; y += 0.1) {
@@ -33,7 +34,7 @@ class Nosecone extends AxialComponent {
                 case "conical": 
                     points.push([y / this.state.length * this.state.endRadius, y]);
                     break;
-                case "ogive":
+                case "ogive":   
                     let rho = (this.state.length**2 + this.state.endRadius**2) * ((((2 - this.state.shapeParameter) * this.state.length)**2) 
                             + (this.state.shapeParameter * this.state.endRadius)**2) /
                             4 / (this.state.shapeParameter * this.state.endRadius) ** 2;
@@ -77,16 +78,15 @@ class Nosecone extends AxialComponent {
                 let x = this.state.thickness / Math.sin(theta);
                 let R_ = R - x;
                 let r_ = r - x;
-                let h = this.state.length;
 
-                let massInner = (R_**2 + R_ * r_ + r_**2) * 1/3 * h * Math.PI * this.state.density;
-                let massOuter = (R**2 + R * r + r**2) * 1/3 * h * Math.PI * this.state.density;
+                let massInner = (R_**2 + R_ * r_ + r_**2) * 1/3 * l * Math.PI * this.state.density;
+                let massOuter = (R**2 + R * r + r**2) * 1/3 * l * Math.PI * this.state.density;
                 let mass = (this.state.filled || r_ < 0 || R_ < 0) ? massOuter : massOuter - massInner;
 
                 totalMass += mass;
             }
         })
-        
+
         this.mass = totalMass;
         return this.mass;
     }
@@ -106,16 +106,15 @@ class Nosecone extends AxialComponent {
                 let r = next[0];
                 let h = next[1] - current[1];
 
-                let comOuter = h * (R**2 + 2 * R * r + 3 * r**2) / (4 * (R**2 + R * r + r**2));
+                let comOuter = h * (R**2 + 2 * R * r + 3 * r**2) / (4 * (R**2 + R * r + r**2)) + current[1];
                 let massOuter = (R**2 + R * r + r**2) * 1/3 * h * Math.PI * this.state.density;
 
-                let theta = Math.atan2(l, R - r);
+                let theta = Math.atan2(h, R - r);
                 let x = this.state.thickness / Math.sin(theta);
                 let R_ = R - x;
                 let r_ = r - x;
-                let h = this.state.length;
 
-                let comInner = h * (R_**2 + 2 * R_ * r_ + 3 * r_**2) / (4 * (R_**2 + R_ * r_ + r_**2));
+                let comInner = h * (R_**2 + 2 * R_ * r_ + 3 * r_**2) / (4 * (R_**2 + R_ * r_ + r_**2)) + current[1];
                 let massInner = (R_**2 + R_ * r_ + r_**2) * 1/3 * h * Math.PI * this.state.density;
                 
                 sumOuter += comOuter * massOuter;
@@ -130,10 +129,23 @@ class Nosecone extends AxialComponent {
         return this.cg;
     }
 
+    _calcCD() {
+        
+        let jointAngle = Math.atan2(this.points[this.points.length - 1][0] - this.points[this.points.length - 2][0], this.points[this.points.length - 1][1] - this.points[this.points.length - 2][1]);
+        let bodyDrag = 0.8 * Math.sin(jointAngle) ** 2;
+
+    }
+
 
     toggleFilled() {
         super.setState({filled: !this.state.filled});
     }
 
 }
+
+let nose = new Nosecone(2.5, 15, "haack", 0, 0.68, 0.2, 0, 0, 0, 0, 0);
+
+console.log(nose.mass);
+console.log(nose.cg);
+console.log(nose.cp);
 
