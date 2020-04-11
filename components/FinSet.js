@@ -4,7 +4,7 @@ const utils = require('../utils.js');
 
 class FinSet {
     constructor(shapeType, numFins, finRotation, finCant, rootChord, tipChord, height, 
-                sweepLength, sweepAngle, crossSection, position, points, density, thickness, angle, aref, dref, v0, p) {
+                sweepLength, sweepAngle, crossSection, position, points, density, thickness, angle, aref, dref, v0, p, M) {
         
         this.state = {
             shapeType: shapeType,
@@ -25,6 +25,7 @@ class FinSet {
             dref: dref,
             v0: v0,
             p: 0,
+            M: M,
             overrideMass : false,
             overrideCG : false,
         }
@@ -225,6 +226,28 @@ class FinSet {
 
         this.area = area;
         return this.area;
+    }
+
+    _calcCD() {
+        let finDragLE = 0;
+        let finDragTE = 0;
+
+        switch(this.state.crossSection) {
+            case "rounded":
+                finDragLE = (1 - M**2)**(-0.417) - 1;
+                finDragTE = (0.12 + 0.13 * M**2) / 2;
+                break;
+            case "square":
+                finDragLE = 0.85 * (1 + M**2 / 4 + M**4 / 40);
+                finDragTE = 0.12 + 0.13 * M**2;
+                break;
+            case "airfoil":
+                finDragLE = (1 - M**2)**(-0.417) - 1;
+                break;
+        }
+
+        this.cd = finDragLE + finDragTE;
+        return this.cd;
     }
 
 }
