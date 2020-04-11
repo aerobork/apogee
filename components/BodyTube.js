@@ -3,9 +3,9 @@ const AxialComponent = require("./axialComponent.js");
 
 class BodyTube extends AxialComponent {
 
-    constructor(radius, innerRadius, length, density, angle, aref, dref, v0, p) {
+    constructor(radius, innerRadius, length, density, angle, aref, dref, v0, p, M) {
 
-        super([[radius, 0], [radius, length]], density, angle, aref, dref, v0, p);
+        super([[radius, 0], [radius, length]], density, angle, aref, dref, v0, p, M);
         this.state.points = null;
         this.state.radius = radius;
         this.state.innerRadius = innerRadius;
