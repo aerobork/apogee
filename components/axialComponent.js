@@ -2,7 +2,7 @@
 const Component = require("./Component.js");
 
 class AxialComponent extends Component {
-    constructor (points, density, angle, aref, dref, v0, p) {
+    constructor (points, density, angle, aref, dref, v0, p, M) {
         `
             points -> [[float, float], ...]: a list of points centered around the x = 0 line describing the profile of the axially symmetric component
             density -> float: density of the material in g/cm^3
@@ -17,6 +17,7 @@ class AxialComponent extends Component {
             dref: dref,
             v0: v0,
             p: 0,
+            M: M,
             overrideMass: false,
             overrideCG: false 
         }
@@ -202,3 +203,19 @@ class AxialComponent extends Component {
 }
 
 module.exports = AxialComponent;
+
+
+
+/*
+    skin friction drag = C_fc * ((1 + 1 / 2 / f_B) * A_body + (1 + 2 * t / c) * A_fins) / A_ref
+    body pressure drag
+        nose cone pressure drag = 0.8 * sin(phi)**2, phi is angle between vertical and nosecone
+        shoulder (transition) pressure drag: same as nose cone
+        boattail pressure drag: eq 3.88, pg 49
+    fin pressure drag: dependent on rectangular, rounded leading/trailing edges, airfoil 
+        Aref = full frontal area
+        rounded leading edge presure drag: eq 3.89, pg 49
+        rectangular: eq 3.90, pg 50
+
+
+*/
