@@ -2,7 +2,7 @@
 
 class Component {
     
-    constructor() {
+    constructor() {}
 
     setMass(mass) {
         this.mass = mass;
