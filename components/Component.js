@@ -2,7 +2,7 @@
 
 class Component {
     
-    constructor() {}
+    constructor() {
 
     setMass(mass) {
         this.mass = mass;
@@ -10,6 +10,10 @@ class Component {
 
     getMass() {
         return this.mass;
+    }
+
+    setName(name) {
+        this.state.name = name;
     }
 
     _calcNormal() {}

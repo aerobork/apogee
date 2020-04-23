@@ -10,6 +10,7 @@ class BodyTube extends AxialComponent {
         this.state.radius = radius;
         this.state.innerRadius = innerRadius;
         this.state.length = length;
+        this.state.motorMount = false;
         this._setState();
     }
 
@@ -26,7 +27,8 @@ class BodyTube extends AxialComponent {
         this.cg = this.state.length / 2;
 
         return this.cg;
-    }   
+    } 
+    
 }
 
 let bt = new BodyTube(2.5, 2.3, 20, 0.68, 0, 10, 10, 0, 0);
