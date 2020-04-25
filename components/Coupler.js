@@ -2,9 +2,21 @@
 const InnerComponent = require("./InnerComponent.js");
 
 class Coupler extends InnerComponent {
-    constructor(radius, innerRadius, length, density, position) {
-        super([[radius, 0], [radius, length]], density, position);
-        this.state.innerRadius = innerRadius;
+    constructor(state) {
+        `
+            radius, innerRadius, length, density, position
+        `
+        super(state);
+    }
+
+    setState(newState) {
+        for (let key in newState) {
+            this.state[key] = newState[key]; 
+        }
+
+        this._calcPoints();
+        this._calcMass();
+        this._calcCG();
     }
 
     _calcPoints() {

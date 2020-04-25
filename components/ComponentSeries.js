@@ -28,6 +28,7 @@ class ComponentSeries extends Component {
 
         this._calcMass();
         this._calcCG();
+        this._calcCP();
     }
 
     setMass(mass) {
@@ -74,4 +75,19 @@ class ComponentSeries extends Component {
         return this.cp;
     }
 
+    _calcSurfaceArea() {
+        let area = 0;
+        
+        this.componentList.map((component, idx) => {
+            if (!component instanceof InnerComponent) {
+                area += component.surfaceArea;
+            }
+        })
+
+        this.surfaceArea = area;
+        return this.surfaceArea;
+    }
+
 }
+
+module.exports = ComponentSeries;

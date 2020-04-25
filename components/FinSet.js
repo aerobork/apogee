@@ -3,34 +3,13 @@
 const utils = require('../utils.js');
 
 class FinSet {
-    constructor(shapeType, numFins, finRotation, finCant, rootChord, tipChord, height, 
-                sweepLength, sweepAngle, crossSection, position, points, density, thickness, angle, aref, dref, v0, p, M) {
+    constructor(state) {
+        `
+        shapeType, numFins, finRotation, finCant, rootChord, tipChord, height, 
+                sweepLength, sweepAngle, crossSection, position, freeformPoints, density, thickness, angle, aref, dref, v0, p, M
+        `
         
-        this.state = {
-            shapeType: shapeType,
-            numFins: numFins,
-            finRotation: finRotation,
-            finCant: finCant,
-            rootChord: rootChord, 
-            tipChord: tipChord, 
-            height: height,
-            sweepLength: sweepLength, 
-            sweepAngle: sweepAngle, 
-            crossSection: crossSection, 
-            position: position,
-            density: density,
-            thickness: thickness,
-            angle: angle,
-            aref: aref,
-            dref: dref,
-            v0: v0,
-            p: 0,
-            M: M,
-            overrideMass : false,
-            overrideCG : false,
-        }
-
-        this.freeFormPoints = points; 
+        this.state = state;
 
         this._setState();
     }
@@ -55,7 +34,7 @@ class FinSet {
                 console.log(points);
                 break;
             case "freeform": 
-                points = this.freeFormPoints;
+                points = this.state.freeFormPoints;
                 break;
         }
 
@@ -186,11 +165,11 @@ class FinSet {
             }
         }
         xmac /= this.area;
-        maclength /= this.area;
+        this.maclength /= this.area;
 
         console.log("xmac: " + xmac);
-        console.log("mac length: " + maclength);
-        this.cp = xmac - maclength / 4;
+        console.log("mac length: " + this.maclength);
+        this.cp = xmac - this.maclength / 4;
         return this.cp;
     
     }
@@ -248,6 +227,23 @@ class FinSet {
 
         this.cd = finDragLE + finDragTE;
         return this.cd;
+    }
+
+    _calcSurfaceArea() {
+        let area = 2 * this.area;
+
+        this.points.map((point, idx) => {
+            if (idx != this.points.length - 1) {
+                let current = this.points[idx];
+                let next = this.points[idx + 1];
+
+                let edgeLength = ((current[0] - next[0])**2 + (current[1] - next[1])**2)**0.5;
+                area += edgeLength * this.state.thickness;
+            }
+        })
+
+        this.surfaceArea = area;
+        return this.surfaceArea;
     }
 
 }

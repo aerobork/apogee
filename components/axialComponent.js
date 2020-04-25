@@ -2,30 +2,34 @@
 const Component = require("./Component.js");
 
 class AxialComponent extends Component {
-    constructor (points, density, angle, aref, dref, v0, p, M) {
+    constructor(state) {
         `
             points -> [[float, float], ...]: a list of points centered around the x = 0 line describing the profile of the axially symmetric component
             density -> float: density of the material in g/cm^3
+            this.state = {
+                points: points,
+                density: density,
+                angle: angle,
+                aref: aref,
+                dref: dref,
+                v0: v0,
+                p: 0,
+                M: M,
+                overrideMass: false,
+                overrideCG: false 
+            }
         `
         super();
-
-        this.state = {
-            points: points,
-            density: density,
-            angle: angle,
-            aref: aref,
-            dref: dref,
-            v0: v0,
-            p: 0,
-            M: M,
-            overrideMass: false,
-            overrideCG: false 
-        }
+        
+        this.state = state;
 
         this.startRadius = points[0][0];
         this.endRadius = points[points.length - 1][0];
         this.length = points[points.length - 1][1] - points[0][1];
 
+        this.subcomponents = [];
+
+        this.setState();
     }
 
     setState(newState) {
@@ -199,23 +203,31 @@ class AxialComponent extends Component {
         this.cg = sum / massSum;
 
         return this.cg;
-    }   
+    }
+    
+    _calcSurfaceArea() {
+        let area = 0;
+
+        this.points.map((point, idx) => {
+            if (idx != this.points.length - 1) {
+                let current = this.points[idx];
+                let next = this.points[idx + 1];
+
+                let R = current[0];
+                let r = next[0];
+                let h = next[1] - current[1];
+
+                area += Math.PI * (r + R) * ((R-r)**2 + h**2)**0.5
+            }
+        })
+
+        this.surfaceArea = area;
+        return this.surfaceArea;
+    }
 }
 
 module.exports = AxialComponent;
 
 
 
-/*
-    skin friction drag = C_fc * ((1 + 1 / 2 / f_B) * A_body + (1 + 2 * t / c) * A_fins) / A_ref
-    body pressure drag
-        nose cone pressure drag = 0.8 * sin(phi)**2, phi is angle between vertical and nosecone
-        shoulder (transition) pressure drag: same as nose cone
-        boattail pressure drag: eq 3.88, pg 49
-    fin pressure drag: dependent on rectangular, rounded leading/trailing edges, airfoil 
-        Aref = full frontal area
-        rounded leading edge presure drag: eq 3.89, pg 49
-        rectangular: eq 3.90, pg 50
 
-
-*/

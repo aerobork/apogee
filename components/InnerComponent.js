@@ -3,16 +3,12 @@ const Component = require("./Component.js");
 
 class InnerComponent extends Component{
 
-    constructor(points, density, position) {
+    constructor(state) {
         super();
 
-        this.state = {
-            points: points,
-            density: density,
-            position: position,
-            overrideMass: false,
-            overrideCG: false 
-        }
+        this.state = state;
+
+        this.setState();
     }
 
     setState(newState) {
