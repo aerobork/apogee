@@ -17,8 +17,6 @@ class Rocket extends ComponentSeries{
         
     }
 
-
-
     add(componentList) {
 
     }
