@@ -3,16 +3,17 @@ const AxialComponent = require("./axialComponent.js");
 
 class Transition extends AxialComponent {
 
-    constructor(startRadius, endRadius, length, density, thickness, angle, aref, dref, v0, p, M) {
-
-        super([[startRadius, 0],[endRadius, length]], density, angle, aref, dref, v0, p, M);
-        this.state.points = null;
-        this.state.startRadius = startRadius;
-        this.state.endRadius = endRadius;
-        this.state.length = length;
-        this.state.thickness = thickness;
-        this.state.filled = false;
-        this._setState();
+    constructor(state) {
+        `
+            startRadius, endRadius, length, density, thickness, angle, aref, dref, v0, p, M
+            this.state.points = null;
+            this.state.startRadius = startRadius;
+            this.state.endRadius = endRadius;
+            this.state.length = length;
+            this.state.thickness = thickness;
+            this.state.filled = false;
+        `
+        super(state);
     }
 
     _calcPoints() {

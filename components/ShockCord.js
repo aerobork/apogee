@@ -2,12 +2,14 @@
 const InnerComponent = require("./InnerComponent.js");
 
 class ShockCord extends InnerComponent {
-    constructor(length, density, position, packedLength, packedDiameter){
-        super([[0,0]], density, position);
-
-        this.state.length = length;
-        this.state.packedLength = packedLength;
-        this.state.packedDiameter = packedDiameter;
+    constructor(state){
+        `
+            length, density, position, packedLength, packedDiameter
+            this.state.length = length;
+            this.state.packedLength = packedLength;
+            this.state.packedDiameter = packedDiameter;
+        `
+        super(state);    
     }
 
     setState() {

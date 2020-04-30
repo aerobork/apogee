@@ -3,26 +3,20 @@ const AxialComponent = require("./axialComponent.js");
 
 class Nosecone extends AxialComponent {
     //TODO: Implement
-    constructor(radius, length, shapeType, shapeParameter, density, thickness, angle, aref, dref, v0, p, M) {
-        
-        
-        // let points = [];
-        // for (let i = 0; i < length; i += 0.1) {
-        //     points.push([i, shape(i)]);
-        // }
-        super([[0,0]], density, angle, aref, dref , v0, p, M);
-
-        this.state.points = null;
-        this.state.thickness = thickness;
-        this.state.startRadius = 0;
-        this.state.endRadius = radius;
-        this.state.length = length;
-        this.state.thickness = thickness;
-        this.state.shapeType = shapeType;
-        this.state.shapeParameter = shapeParameter;
-        this.state.filled = false;
-
-        this.setState();
+    constructor(state) {
+        `
+            radius, length, shapeType, shapeParameter, density, thickness, angle, aref, dref, v0, p, M
+            this.state.points = null;
+            this.state.thickness = thickness;
+            this.state.startRadius = 0;
+            this.state.endRadius = radius;
+            this.state.length = length;
+            this.state.thickness = thickness;
+            this.state.shapeType = shapeType;
+            this.state.shapeParameter = shapeParameter;
+            this.state.filled = false;
+        `
+        super(state);
     }
 
     _calcPoints() {

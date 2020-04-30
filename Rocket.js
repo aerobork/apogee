@@ -4,7 +4,7 @@ const ComponentSeries = require("./components/ComponentSeries.js");
 const InnerComponent = require("./components/InnerComponent.js");
 const FinSet = require("./components/FinSet.js");
 
-class Rocket {
+class Rocket extends ComponentSeries{
     constructor(componentList)
     {
         super([componentList]);
@@ -20,7 +20,7 @@ class Rocket {
 
 
     add(componentList) {
-        
+
     }
 
     remove(componentList) {

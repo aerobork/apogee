@@ -2,18 +2,20 @@
 const InnerComponent = require("./InnerComponent.js");
 
 class Parachute extends InnerComponent {
-    constructor(diameter, cd, canopyDensity, shroudLines, lineLength, shroudLineDensity, position, packedLength, packedDiameter) {
-        super([[0,0]], 0, position);
-
-        this.state.diameter = diameter;
-        this.state.cd = cd;
-        this.state.canopyDensity = canopyDensity;
-        this.state.shroudLines = shroudLines;
-        this.state.lineLength = lineLength;
-        this.state.shroudLineDensity = shroudLineDensity;
-        this.state.position = position;
-        this.state.packedLength = packedLength;
-        this.state.packedDiameter = packedDiameter;
+    constructor(state) {
+        `
+            diameter, cd, canopyDensity, shroudLines, lineLength, shroudLineDensity, position, packedLength, packedDiameter
+            this.state.diameter = diameter;
+            this.state.cd = cd;
+            this.state.canopyDensity = canopyDensity;
+            this.state.shroudLines = shroudLines;
+            this.state.lineLength = lineLength;
+            this.state.shroudLineDensity = shroudLineDensity;
+            this.state.position = position;
+            this.state.packedLength = packedLength;
+            this.state.packedDiameter = packedDiameter;
+        `
+        super(state);
     }
 
     setState(newState) {

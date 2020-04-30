@@ -3,18 +3,21 @@ const Component = require("./Component.js");
 
 class ComponentSeries extends Component {
 
-    constructor(componentList) {
+    constructor(componentList, state) {
+        `
+            this.state = {
+                angle: angle,
+                aref: aref,
+                dref: dref,
+                v0: v0,
+                p: 0,
+                overrideMass : false,
+                overrideCG : false,
+            }
+        `
         this.componentList = componentList;
-        
-        this.state = {
-            angle: angle,
-            aref: aref,
-            dref: dref,
-            v0: v0,
-            p: 0,
-            overrideMass : false,
-            overrideCG : false,
-        }
+
+        this.state = state;
     }
 
     setState(newState) {

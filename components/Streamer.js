@@ -2,14 +2,16 @@
 const InnerComponent = require("./InnerComponent.js");
 
 class Streamer extends InnerComponent {
-    constructor(length, width, density, cd, packedLength, packedDiameter, position) {
-        super([[0,0]], density, position);
-        
-        this.state.length = length;
-        this.state.width = width;
-        this.state.cd = cd;
-        this.state.packedDiameter = packedDiameter;
-        this.state.packedLength = packedLength;
+    constructor(state) {
+        `
+            length, width, density, cd, packedLength, packedDiameter, positionthis.state.length = length;
+            this.state.width = width;
+            this.state.cd = cd;
+            this.state.packedDiameter = packedDiameter;
+            this.state.packedLength = packedLength;
+
+        `
+        super(state);        
     }
 
     setState() {

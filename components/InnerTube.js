@@ -2,9 +2,12 @@
 const Coupler = require("./Coupler.js");
 
 class InnerTube extends Coupler {
-    constructor(radius, innerRadius, length, density, position) {
-        super(radius, innerRadius, length, density, position);
-        this.state.motorMount = false;
+    constructor(state) {
+        `
+            radius, innerRadius, length, density, position
+            motorMount
+        `
+        super(state);
     }
 
     makeMotorMount(overhang, ignitionType, ignitionTime) {

@@ -22,11 +22,6 @@ class AxialComponent extends Component {
         super();
         
         this.state = state;
-
-        this.startRadius = points[0][0];
-        this.endRadius = points[points.length - 1][0];
-        this.length = points[points.length - 1][1] - points[0][1];
-
         this.subcomponents = [];
 
         this.setState();

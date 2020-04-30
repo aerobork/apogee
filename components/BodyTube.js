@@ -7,10 +7,6 @@ class BodyTube extends AxialComponent {
         `
             state: radius, innerRadius, length, density, angle, aref, dref, v0, p, M
             
-            this.state.points = null;
-            this.state.radius = radius;
-            this.state.innerRadius = innerRadius;
-            this.state.length = length;
             this.state.motorMount = false;
         `
         super(state);

@@ -2,12 +2,11 @@
 const InnerComponent = require("./InnerComponent.js");
 
 class MassComponent extends InnerComponent {
-    constructor(mass, position, length, diameter){
-        super([[0,0]], 0, position);
-
-        this.state.mass = mass;
-        this.state.length = length;
-        this.state.diameter = diameter;
+    constructor(state){
+        `
+            mass, position, length, diameter
+        `
+        super(state);
     }
 
     setState() {
