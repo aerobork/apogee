@@ -1,63 +1,90 @@
 "use strict"
 
+const FinSet = require("./components/FinSet.js");
+const OuterComponent = require('./components/OuterComponent.js');
 const ComponentSeries = require("./components/ComponentSeries.js");
 const InnerComponent = require("./components/InnerComponent.js");
-const FinSet = require("./components/FinSet.js");
+const BodyTube = require("./components/BodyTube.js");
+const InnerTube = require('./components/InnerTube.js');
 
 class Rocket extends ComponentSeries{
-    constructor(componentList)
+    constructor(state)
     {
-        super([componentList]);
-
-        this.componentList.map((component, idx) => {
-            if (idx != this.points.length - 1) {
-                
-            }
-        })
+        super(state);
         
-    }
-
-    add(componentList) {
-
-    }
-
-    remove(componentList) {
-
-    }
-
-    add(component, location) {
-        if (location) {
-            for (let idx = 0; idx < this.componentList.length; idx++) {
-                if (this.componentList[idx].name === location) {
-                    
-                    break;
-                }
+        for (let i = 0; i < this.state.subcomponents.length; i++){
+            if (this.state.subcomponents[i] instanceof FinSet) {
+                this.state.finset = this.state.subcomponents[i];
+                break;
             }
         }
-        this.subcomponents.push(subcomponent);
+    }
+
+    add(subcomponents) {
+        `
+        subcomponents -> [[location, component], ...]
+        `
+
+        console.log(subcomponents);
+        subcomponents.map((info, idx) => {
+            let location = info[0] + '.';
+            let component = info[1];
+            let parentComponent = this;
+
+            while (location.indexOf('.') >= 0){
+                let splitLocation = location.indexOf(".");        // . delimit
+                let name = location.slice(0, splitLocation);
+                console.log(name + " " + splitLocation + " " + location);
+
+                parentComponent = parentComponent.search(name);
+
+                location = location.slice(splitLocation + 1); 
+            }
+            
+            parentComponent.state.subcomponents.push(component);
+            
+        })
+    }
+
+    search(name) {
+        if (name === ""){
+            return this; 
+        }
+
+        for (let i = 0; i < this.state.subcomponents.length; i++){
+            if (this.state.subcomponents[i].state.name === name) {
+                return this.state.subcomponents[i];
+            }   
+        }
+
+        throw "bruh this component doesn't exist u dong";
+    }
+
+    remove(subcomponents) {
+
     }
 
     remove(componentName) {
         let removeidx = -1;
-        for (let idx = 0; idx < this.subcomponents.length; idx++) {
-            if (this.subcomponents[idx].name === componentName) {
+        for (let idx = 0; idx < this.state.subcomponents.length; idx++) {
+            if (this.state.subcomponents[idx].name === componentName) {
                 removeidx = idx;
                 break;
             }
         }
         
-        this.subcomponents.map((subcomponent, idx) => {
+        this.state.subcomponents.map((subcomponent, idx) => {
             if (idx != this.points.length - 1) {
                 
             }
         })
-        this.subcomponents.remove()
+        this.state.subcomponents.remove()
     }
 
     _calcFinenessRatio() {
         let maxDiameter = 0;
         let totalLength = 0;
-        this.componentList.map((component, idx) => {
+        this.state.subcomponents.map((component, idx) => {
             if (!component instanceof InnerComponent && !component instanceof FinSet) {
                 component.points.map((point, idx) => {
                     if (idx != component.points.length - 1) {
@@ -81,7 +108,7 @@ class Rocket extends ComponentSeries{
                                (1 + 2 * this.fins.thickness / this.fins.maclength) * this.fins.surfaceArea) / this.state.aref;
         
         let cd = 0;
-        this.componentList.map((component, idx) => {
+        this.state.subcomponents.map((component, idx) => {
             cd += component.cd;
         })
 
@@ -104,3 +131,31 @@ class Rocket extends ComponentSeries{
 
 
 */
+
+let bt = new BodyTube({
+    radius: 5,
+    innerRadius: 4.5, 
+    length: 10,
+    density: 0.68,
+    subcomponents: [],
+    name: "bron"
+});
+
+let rocket = new Rocket({
+    subcomponents: [] 
+})
+
+let innertube = new InnerTube({
+    radius: 4.5,
+    innerRadius: 4,
+    position: 0,
+    motorMount: false,
+    name: "bronticulosis"
+})
+
+rocket.add([["", bt]]);
+console.log(rocket.state);
+rocket.add([["bron", innertube]])
+
+console.log(rocket.state);
+console.log(rocket.state.subcomponents[0].state)
