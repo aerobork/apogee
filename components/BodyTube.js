@@ -1,7 +1,7 @@
 "use strict"
-const AxialComponent = require("./axialComponent.js");
+const AxialOuterComponent = require("./AxialOuterComponent.js");
 
-class BodyTube extends AxialComponent {
+class BodyTube extends AxialOuterComponent {
 
     constructor(state) {
         `
@@ -10,9 +10,7 @@ class BodyTube extends AxialComponent {
             this.state.motorMount = false;
         `
         super(state);
-        
-        this._setState();
-    }
+            }
 
     _calcPoints() {
         this.points = [[this.state.radius, 0], [this.state.radius, this.state.length]];
@@ -30,6 +28,8 @@ class BodyTube extends AxialComponent {
     } 
     
 }
+
+module.exports = BodyTube;
 
 let bt = new BodyTube(2.5, 2.3, 20, 0.68, 0, 10, 10, 0, 0);
 bt.setState({});

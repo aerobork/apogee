@@ -1,7 +1,7 @@
 "use strict"
-const AxialComponent = require("./axialComponent.js");
+const AxialOuterComponent = require("./AxialOuterComponent.js");
 
-class Transition extends AxialComponent {
+class Transition extends AxialOuterComponent {
 
     constructor(state) {
         `

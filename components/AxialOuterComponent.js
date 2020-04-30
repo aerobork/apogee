@@ -1,7 +1,7 @@
 
-const Component = require("./Component.js");
+const OuterComponent = require("./OuterComponent.js");
 
-class AxialComponent extends Component {
+class AxialOuterComponent extends OuterComponent {
     constructor(state) {
         `
             points -> [[float, float], ...]: a list of points centered around the x = 0 line describing the profile of the axially symmetric component
@@ -16,13 +16,13 @@ class AxialComponent extends Component {
                 p: 0,
                 M: M,
                 overrideMass: false,
-                overrideCG: false 
+                overrideCG: false,
+                subcomponents: []
             }
         `
         super();
         
         this.state = state;
-        this.subcomponents = [];
 
         this.setState();
     }
@@ -56,6 +56,16 @@ class AxialComponent extends Component {
         this._calcNormal();
         this._calcLift();
 
+    }
+
+    search(name) {
+        for (let i = 0; i < this.state.subcomponents.length; i++){
+            if (this.state.subcomponents[i].name === name) {
+                return this.state.subcomponents[i];
+            }   
+        }
+
+        throw "bruh this component doesn't exist u ding dong";
     }
 
     _calcPoints() {
@@ -221,7 +231,7 @@ class AxialComponent extends Component {
     }
 }
 
-module.exports = AxialComponent;
+module.exports = AxialOuterComponent;
 
 
 

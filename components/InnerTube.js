@@ -18,3 +18,5 @@ class InnerTube extends Coupler {
     }
 
 }
+
+module.exports = InnerTube;

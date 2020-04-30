@@ -1,7 +1,7 @@
 "use strict"
-const AxialComponent = require("./axialComponent.js");
+const AxialOuterComponent = require("./AxialOuterComponent.js");
 
-class Nosecone extends AxialComponent {
+class Nosecone extends AxialOuterComponent {
     //TODO: Implement
     constructor(state) {
         `

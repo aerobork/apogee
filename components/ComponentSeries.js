@@ -1,9 +1,10 @@
 "use strict"
 const Component = require("./Component.js");
+const OuterComponent = require('./OuterComponent.js');
 
 class ComponentSeries extends Component {
 
-    constructor(componentList, state) {
+    constructor(state) {
         `
             this.state = {
                 angle: angle,
@@ -13,18 +14,18 @@ class ComponentSeries extends Component {
                 p: 0,
                 overrideMass : false,
                 overrideCG : false,
+                subcomponents: []
             }
         `
-        this.componentList = componentList;
 
-        this.state = state;
+        super(state);
     }
 
     setState(newState) {
         for (let key in newState) {
             this.state[key] = newState[key]; 
 
-            this.componentList.map((component, idx) => {
+            this.state.subcomponents.map((component, idx) => {
                 component.setState(newState);
             }) 
         }
@@ -42,7 +43,7 @@ class ComponentSeries extends Component {
     _calcMass() {
         let massSum = 0;
 
-        this.componentList.map((component, idx) => {
+        this.state.subcomponents.map((component, idx) => {
             massSum += component.mass;
         })
 
@@ -58,7 +59,7 @@ class ComponentSeries extends Component {
     _calcCG() {
         let comSum = 0;
 
-        this.componentList.map((component, idx) => {
+        this.state.subcomponents.map((component, idx) => {
             comSum += component.mass * component.cg;
         })
 
@@ -69,9 +70,15 @@ class ComponentSeries extends Component {
     _calcCP() {
         let cpSum = 0;
         let cnSum = 0;
-        this.componentList.map((component, idx) => {
-            cpSum += component.Cn * component.cp;
-            cnSum += component.Cn;
+        let length = 0;
+
+        this.state.subcomponents.map((component, idx) => {
+            if (component instanceof OuterComponent){
+                cpSum += component.Cn * (component.cp + length);
+                cnSum += component.Cn;
+
+                length += component.length;
+            }
         })
 
         this.cp = cpSum / cnSum;
@@ -81,8 +88,8 @@ class ComponentSeries extends Component {
     _calcSurfaceArea() {
         let area = 0;
         
-        this.componentList.map((component, idx) => {
-            if (!component instanceof InnerComponent) {
+        this.state.subcomponents.map((component, idx) => {
+            if (component instanceof OuterComponent) {
                 area += component.surfaceArea;
             }
         })
