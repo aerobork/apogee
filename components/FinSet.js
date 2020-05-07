@@ -129,7 +129,6 @@ class FinSet extends OuterComponent {
             }
         }
     }
-    }
 
     _calcArea() {
         let x = 0;

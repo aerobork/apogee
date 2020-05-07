@@ -24,8 +24,6 @@ class Rocket extends ComponentSeries{
         `
         subcomponents -> [[location, component], ...]
         `
-
-        console.log(subcomponents);
         subcomponents.map((info, idx) => {
             let location = info[0] + '.';
             let component = info[1];
@@ -60,25 +58,29 @@ class Rocket extends ComponentSeries{
         throw "bruh this component doesn't exist u dong";
     }
 
-    remove(subcomponents) {
-
-    }
-
-    remove(componentName) {
-        let removeidx = -1;
-        for (let idx = 0; idx < this.state.subcomponents.length; idx++) {
-            if (this.state.subcomponents[idx].name === componentName) {
-                removeidx = idx;
-                break;
-            }
-        }
+    remove(names) {
         
-        this.state.subcomponents.map((subcomponent, idx) => {
-            if (idx != this.points.length - 1) {
-                
+        names.map(name => {
+            let location = name + '.';
+            let parentComponent = this;
+
+            while (name.indexOf('.') >= 0){
+                let splitLocation = name.indexOf(".");        // . delimit
+                let name = name.slice(0, splitLocation);
+                console.log(name + " " + splitLocation + " " + name);
+
+                parentComponent = parentComponent.search(name);
+
+                name = name.slice(splitLocation + 1); 
+            }
+            
+            for (let i = 0; i < parentComponent.state.subcomponents.length; i++){
+                if (parentComponent.state.subcomponents[i].state.name === name) {
+                    parentComponent.state.subcomponents.splice(i,1);
+                    break;
+                }   
             }
         })
-        this.state.subcomponents.remove()
     }
 
     _calcFinenessRatio() {
@@ -158,4 +160,8 @@ console.log(rocket.state);
 rocket.add([["bron", innertube]])
 
 console.log(rocket.state);
+
+rocket.remove(["bron"]);
+console.log(rocket.state);
+
 console.log(rocket.state.subcomponents[0].state)
