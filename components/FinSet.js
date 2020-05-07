@@ -1,8 +1,9 @@
 "use strict"
 
 const utils = require('../utils.js');
+const OuterComponent = reqiure('./OuterComponent.js')
 
-class FinSet {
+class FinSet extends OuterComponent{
     constructor(state) {
         `shapeType, numFins, finRotation, finCant, rootChord, tipChord, height, 
         sweepLength, sweepAngle, crossSection, position, freeFormPoints, density, thickness, angle, aref, dref, v0, p`
