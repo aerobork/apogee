@@ -128,6 +128,8 @@ class Nosecone extends AxialOuterComponent {
         let jointAngle = Math.atan2(this.points[this.points.length - 1][0] - this.points[this.points.length - 2][0], this.points[this.points.length - 1][1] - this.points[this.points.length - 2][1]);
         let bodyDrag = 0.8 * Math.sin(jointAngle) ** 2;
 
+        this.cd = bodyDrag;
+        return this.cd;
     }
 
 

@@ -9,8 +9,23 @@
     <meta name="author" content="aerobork">
 
     <link rel="stylesheet" href="styles.css?v=2.0">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
 
 </head>
+
+<style>
+    .menu-spacer {
+        margin-top: 3px;
+        margin-bottom: 3px
+         }
+        
+         p {
+             font-family: "IBM Plex Mono";
+             font-weight: 400
+         }
+
+</style>
 
 <body style = 'width: 100%; height: 100%; padding: 0; margin:0 ;'>
     <script src="js/scripts.js"></script>
@@ -20,8 +35,254 @@
                 <span style = "color: #4C65BE">apogee</span>.js
             </div>
 
-            <div style = "border-style: solid; border-width: 3px;height: 100%; background: #fff; padding: 5vw; position: relative">
-                <div style = 'position: absolute; top: 0; left: 0; width: 20%; height: 100%; background: #eee; border-right-style: solid'></div> 
+            <div style = "border-style: solid; border-width: 3px;height: fit-content; background: #fff; position: relative;
+            display: flex">
+                <div style = ' width: 20%; height: auto; background: #eee; border-right-style: solid;'>
+                    <div style = 'padding: 0px; font-family: "IBM Plex Mono"; font-weight: 400; font-size: 13px'>
+                        <div style = 'padding: 20px; border-color: #aaa'>
+                            <div style = 'display: flex; margin-bottom: 5px'>
+                                <div style = 'width: 0px'></div>
+                                Overview
+                            </div>
+                                <div style = 'display: flex'>
+                                    <div style = 'width: 20px; border-left-style: solid; border-width: 2px; border-color: #ccc'></div>
+                                    <div class = 'menu-spacer'>Naming & Variables</div>
+                                </div>
+                                <div style = 'display: flex'>
+                                    <div style = 'width: 20px; border-left-style: solid; border-width: 2px; border-color: #ccc'></div>
+                                    <div class = 'menu-spacer'>Coordinate System</div>
+                                </div>
+                            
+                            <br/>
+
+                            <div style = 'display: flex; margin-bottom: 5px'>
+                                <div style = 'width: 0px'></div>
+                                Components
+                            </div>
+                                <div style = 'display: flex'>
+                                    <div style = 'width: 20px; border-left-style: solid; border-width: 2px; border-color: #ccc'></div>
+                                    <div class = 'menu-spacer'>Axial Components</div>
+                                </div>
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px; border-top-style: solid; border-width: 2px; border-color: #ccc' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Body Tube</div>
+                                    </div>
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px; ' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Transition</div>
+                                    </div>
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px;  border-bottom-style: solid; border-width: 2px; border-color: #ccc' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Nosecone</div>
+                                    </div>
+                            
+                                <div style = 'display: flex' >
+                                    <div style = 'width: 20px; border-left-style: solid; border-width: 2px; border-color: #ccc'></div>
+                                    <div class = 'menu-spacer'>Inner Components</div>
+                                </div>
+                                
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px; border-top-style: solid; border-width: 2px; border-color: #ccc' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Coupler</div>
+                                    </div>
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px; ' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Inner Tube</div>
+                                    </div>
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px;' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Engine Block</div>
+                                    </div>
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px; ' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Centering Ring</div>
+                                    </div>
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px; ' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Bulkhead</div>
+                                    </div>
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px; ' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Mass Component</div>
+                                    </div>
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px; ' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Parachute</div>
+                                    </div>
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px;border-bottom-style: solid; border-width: 2px; border-color: #ccc ' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Streamer</div>
+                                    </div>
+
+                                <div style = 'display: flex' >
+                                    <div style = 'width: 20px; border-left-style: solid; border-width: 2px; border-color: #ccc'></div>
+                                    <div class = 'menu-spacer'>Component Series</div>
+                                </div>
+                                
+
+                                <div style = 'display: flex' >
+                                    <div style = 'width: 20px; border-left-style: solid; border-width: 2px; border-color: #ccc'></div>
+                                    <div class = 'menu-spacer'>Fins</div>
+                                </div>
+                                
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px; border-top-style: solid; border-width: 2px; border-color: #ccc' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Elliptical</div>
+                                    </div>
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px; ' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Trapezoidal</div>
+                                    </div>
+                                    <div style = 'display: flex'>
+                                        <div style = 'width: 20px; ' ></div>
+                                        <div style = 'width: 20px; border-left-style: solid;border-width: 2px; border-color: #ccc' ></div>
+                                        <div class = 'menu-spacer'>Freeform</div>
+                                    </div>
+                            <br/>
+                            <div style = 'display: flex; margin-bottom: 5px'>
+                                <div style = 'width: 0px'></div>
+                                Rocket
+                            </div>
+                            <br/>
+                            
+                            <div style = 'display: flex; margin-bottom: 5px'>
+                                <div style = 'width: 0px'></div>
+                                Simulation
+                            </div>
+
+                               
+                        </div>
+                        
+                    </div> 
+                </div> 
+                <div style = 'width:80%; height: fit-content; background: white'>
+                    <div style = 'padding: 50px; '>
+                        <h1>Overview</h1>
+                        <p>Welcome to the documentation for apogee.js! This is a javascript library for simulating model rockets. This section gives a brief overview of how apogee.js functions, as well as useful information like coordinate systems and naming conventions.</p>
+                        <br/>
+                        <h3>Common Variables</h3>  
+                        <p>we only use two variables in the entire library: state and points, there are no other variables.</p>
+                        <br/>
+                        <h3>Abbreviations</h3>  
+                        <p>
+                            Rockets depend on a few variables during flight, like angle of attack and velocity. In general apogee.js will name its variables as shown below:
+                            <div style = 'background: #fafafa; margin-left: -50px; width: calc(100% + 40px); padding: 30px'>
+                                <table style = 'margin-left: 70px; width: 50%; text-align: left; font-family: "IBM Plex Mono"'>
+                                    <tr>
+                                        <th>angle of attack</th>
+                                        <th>= angle</th>
+                                    </tr>
+                                    <tr>
+                                        <th>reference area</th>
+                                        <th>= aref</th>
+                                    </tr>
+                                    <tr>
+                                        <th>reference diameter</th>
+                                        <th>= dref</th>
+                                    </tr>
+                                    <tr>
+                                        <th>free-stream velocity</th>
+                                        <th>= v0</th>
+                                    </tr>
+                                    <tr>
+                                        <th>rho</th>
+                                        <th>= p</th>
+                                    </tr>
+                                    <tr>
+                                        <th>mach number</th>
+                                        <th>= M</th>
+                                    </tr>
+                                    <tr>
+                                        <th>coefficient of normal force</th>
+                                        <th>= n</th>
+                                    </tr>
+                                    <tr>
+                                        <th>coefficient of pitch moment</th>
+                                        <th>= n</th>
+                                    </tr>
+                                    <tr>
+                                        <th>coefficient of drag</th>
+                                        <th>= cd</th>
+                                    </tr>
+                                    <tr>
+                                        <th>coefficient of lift</th>
+                                        <th>= dl</th>
+                                    </tr>
+                                    <tr>
+                                        <th>center of gravity</th>
+                                        <th>= cg</th>
+                                    </tr>
+                                    <tr>
+                                        <th>center of pressure</th>
+                                        <th>= cp</th>
+                                    </tr>
+                                    
+                                </table>
+                            </div>
+
+
+                         
+                        </p>
+
+                        <h3>Coordinate System</h3>
+                        <p>THe origin is placed at the tip of the nosecone, with the positive y-axis on the rocket's axis of rotation. The x-axis is perpendicular to the axis of rotation. </p>
+
+                        <h3>Equations</h3>
+                        <br/>
+                        <br/>
+                        <h1>Components</h1>
+                        <p>Components are the basic buildings blocks of any rocket in apogee.js. Components are categorized into three major component types: <b>Outer Components, Inner Components, </b> and <b>Component Series</b>. All three of these components classes inherit the <b>Component</b> superclass. All component classes contain a <b>state</b> variable, which represents anything that is not a derived property of that component. <br/><br/> For example, if the length of a component is not needed to specify the shape of a component, but is used in a calculation at some point, it may be derived using the state variables. Because of this, length will not be in the state, but instead will be an internally accessible variable <span style = 'color: purple'>this</span>.length</p>
+
+                        <div style = 'font-family: "Fira Code"'>class Component(state)</div>
+                        <div style = 'font-family: "IBM Plex Mono"; margin-left: 20px'>
+                            <p>Base component. This should not be used in most circumstances, unless you are extending it to create a new class. 
+                            </p>
+                            <div style = 'font-family: "Fira Code"'>constructor(state)</div>
+                            <div style = 'font-family: "IBM Plex Mono"; margin-left: 20px; font-weight: 400'>
+                                Creates a new component instance. The only state variable that is required for a raw component is its name.
+                            </div>
+                            <br/>
+                            <div style = 'font-family: "Fira Code"'>setMass(mass)</div>
+                            <div style = 'font-family: "IBM Plex Mono"; margin-left: 20px; font-weight: 400'>
+                                Sets the mass of this component.
+                            </div>
+                            <br/>
+                            <div style = 'font-family: "Fira Code"'>getMass()</div>
+                            <div style = 'font-family: "IBM Plex Mono"; margin-left: 20px; font-weight: 400'>
+                                Gets the mass of this component.
+                            </div>
+                            <br/>
+                            <div style = 'font-family: "Fira Code"'>setName(name)</div>
+                            <div style = 'font-family: "IBM Plex Mono"; margin-left: 20px; font-weight: 400'>
+                                Sets the name of this component.
+                            </div>  
+                            <br/>
+                            <div style = 'font-family: "Fira Code"'>setName(name)</div>
+                            <div style = 'font-family: "IBM Plex Mono"; margin-left: 20px; font-weight: 400'>
+                                Sets the name of this component.
+                            </div>  
+                            <br/>
+                            <div style = 'font-family: "Fira Code"'>setName(name)</div>
+                            <div style = 'font-family: "IBM Plex Mono"; margin-left: 20px; font-weight: 400'>
+                                Sets the name of this component.
+                            </div>  
+
+                        </div> 
+                    </div>
+                </div>
             </div>
         </div>
     </div>
