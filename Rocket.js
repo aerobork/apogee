@@ -107,7 +107,7 @@ class Rocket extends ComponentSeries{
         let R = this.state.v0 * this.length / (1.48 * 10**-5);
         let Cfc = (1.50 * Math.log(R) - 5.6)**-2 * (1-0.1 * this.state.M**2);
         let skinFrictionDrag = Cfc * ((1 + 1 / 2 / this.finenessRatio) * this.surfaceArea + 
-                               (1 + 2 * this.fins.thickness / this.fins.maclength) * this.fins.surfaceArea) / this.state.aref;
+                               (1 + 2 * this.finset.thickness / this.finset.maclength) * this.finset.surfaceArea) / this.state.aref;
         
         let cd = 0;
         this.state.subcomponents.map((component, idx) => {
