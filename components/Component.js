@@ -4,6 +4,10 @@ class Component {
     
     constructor(state) {
         this.state = state;
+        
+        if (!this.state.subcomponents){
+            this.state.subcomponents = [];
+        }
     }
 
     setMass(mass) {
