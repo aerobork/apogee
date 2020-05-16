@@ -7,7 +7,6 @@ class InnerComponent extends Component{
         super();
 
         this.state = state;
-        this.subcomponents = [];
 
         this.setState();
     }
