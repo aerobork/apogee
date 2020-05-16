@@ -40,6 +40,7 @@ class ComponentSeries extends Component {
         this.overrideMass = true;
     }
 
+    /*
     _calcMass() {
         let massSum = 0;
 
@@ -49,14 +50,14 @@ class ComponentSeries extends Component {
 
         this.mass = massSum;
         return this.mass;
-    }
+    }*/
 
     setCG(cg) {
         this.CG = cg;
         this.overrideCG = true;
     }
 
-    _calcCG() {
+    /*_calcCG() {
         let comSum = 0;
 
         this.state.subcomponents.map((component, idx) => {
@@ -96,7 +97,7 @@ class ComponentSeries extends Component {
 
         this.surfaceArea = area;
         return this.surfaceArea;
-    }
+    }*/
 
 }
 
