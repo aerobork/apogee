@@ -65,13 +65,10 @@ class AxialOuterComponent extends OuterComponent {
             }   
         }
 
-        throw "bruh this component doesn't exist u ding dong";
+        throw "No subcomponent has the given name.";
     }
 
-    _calcPoints() {
-        this.points = this.state.points;
-        return this.points;
-    }
+    _calcPoints() {}
 
     setMass(mass) {
         this.mass = mass;
@@ -90,10 +87,10 @@ class AxialOuterComponent extends OuterComponent {
         })
     }
 
-    getRadius(x) {
+    getRadius(y) {
 
         for (let i = 0; i < this.points.length; i++){
-            if (point[i][1] > x){
+            if (point[i][1] > y){
                 let prev = this.points[i- 1];
                 let height = point[1] - prev[1];
 
@@ -179,9 +176,9 @@ class AxialOuterComponent extends OuterComponent {
     }
 
     _calcMass() {
-        this.mass = this.volume * this.state.density;
+        this.mass = this.state.overrideMass ? this.mass : this.volume * this.state.density;
 
-        return this.mass;
+        return this.volume * this.state.density;
     }
 
     _calcCG() {
