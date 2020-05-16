@@ -83,6 +83,47 @@ class Rocket extends ComponentSeries{
         })
     }
 
+    setMass(mass) {
+        this.mass = mass;
+        this.overrideMass = true;
+    }
+
+    setCG(cg) {
+        this.CG = cg;
+        this.overrideCG = true;
+    }
+
+    _calcCP() {
+        let cpSum = 0;
+        let cnSum = 0;
+        let length = 0;
+
+        this.state.subcomponents.map((component, idx) => {
+            if (component instanceof OuterComponent){
+                cpSum += component.Cn * (component.cp + length);
+                cnSum += component.Cn;
+
+                length += component.length;
+            }
+        })
+
+        this.cp = cpSum / cnSum;
+        return this.cp;
+    }
+
+    _calcSurfaceArea() {
+        let area = 0;
+        
+        this.state.subcomponents.map((component, idx) => {
+            if (component instanceof OuterComponent) {
+                area += component.surfaceArea;
+            }
+        })
+
+        this.surfaceArea = area;
+        return this.surfaceArea;
+    }
+
     _calcFinenessRatio() {
         let maxDiameter = 0;
         let totalLength = 0;
@@ -104,12 +145,13 @@ class Rocket extends ComponentSeries{
     }
 
     _calcDrag() {
-        let R = this.state.v0 * this.length / (1.48 * 10**-5);
-        let Cfc = (1.50 * Math.log(R) - 5.6)**-2 * (1-0.1 * this.state.M**2);
+        let R = this.state.v0 * this.length / (1.48 * 10**-5); // Reynolds number
+        let Cfc = (1.50 * Math.log(R) - 5.6)**-2 * (1-0.1 * this.state.M**2); // compressibility-corrected skin friction coefficient
         let skinFrictionDrag = Cfc * ((1 + 1 / 2 / this.finenessRatio) * this.surfaceArea + 
                                (1 + 2 * this.finset.thickness / this.finset.maclength) * this.finset.surfaceArea) / this.state.aref;
         
-        let cd = 0;
+        let cd = skinFrictionDrag;
+
         this.state.subcomponents.map((component, idx) => {
             cd += component.cd;
         })
