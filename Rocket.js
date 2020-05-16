@@ -114,6 +114,8 @@ class Rocket extends ComponentSeries{
             cd += component.cd;
         })
 
+        this.cd = cd;
+        return this.cd;
 
     }
 
