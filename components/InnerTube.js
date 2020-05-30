@@ -7,6 +7,7 @@ class InnerTube extends Coupler {
             radius, innerRadius, length, density, position
             motorMount
         `
+        console.log(state);
         super(state);
     }
 

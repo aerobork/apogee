@@ -20,7 +20,8 @@ class AxialOuterComponent extends OuterComponent {
                 subcomponents: []
             }
         `
-        super();
+        console.log(state);
+        super(state);
         
         this.state = state;
 

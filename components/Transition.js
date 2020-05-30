@@ -65,9 +65,22 @@ class Transition extends AxialOuterComponent {
         super.setState({filled: !this.state.filled});
     }
 }
+` startRadius, endRadius, length, density, thickness, angle, aref, dref, v0, p, M
+            this.state.points = null;
+            this.state.startRadius = startRadius;
+            this.state.endRadius = endRadius;
+            this.state.length = length;
+            this.state.thickness = thickness;
+            this.state.filled = false;`
 
-let bt = new Transition(2.5, 2.3, 7.5, 0.68, 1.2, 0, 10, 10, 0, 0);
-bt.setState({});
+let bt = new Transition({
+    startRadius: 2.5,
+    endRadius: 10,
+    length: 5,
+    density : 0.68,
+    thickness: 1.2,
+})
+
 console.log(bt.mass);
 console.log(bt.cg);
 

@@ -10,7 +10,7 @@ class BodyTube extends AxialOuterComponent {
             this.state.motorMount = false;
         `
         super(state);
-            }
+    }
 
     _calcPoints() {
         this.points = [[this.state.radius, 0], [this.state.radius, this.state.length]];
@@ -31,8 +31,21 @@ class BodyTube extends AxialOuterComponent {
 
 module.exports = BodyTube;
 
-let bt = new BodyTube(2.5, 2.3, 20, 0.68, 0, 10, 10, 0, 0);
-bt.setState({});
-console.log(bt.mass);
-console.log(bt.cg);
-console.log(bt.cp);
+if (require.main === module) {
+    let bt = new BodyTube( {
+        radius: 2.5,
+        innerRadius: 2.3,
+        length: 20, 
+        density: 0.68,
+        angle: 0,
+        aref: 10,
+        dref: 10,
+        v0: 0,
+        p: 0, 
+        M: 0
+    })
+    bt.setState({});
+    console.log(bt.mass);
+    console.log(bt.cg);
+    console.log(bt.cp);
+}

@@ -7,17 +7,25 @@ const InnerComponent = require("./components/InnerComponent.js");
 const BodyTube = require("./components/BodyTube.js");
 const InnerTube = require('./components/InnerTube.js');
 
+console.log(FinSet);
+
 class Rocket extends ComponentSeries{
     constructor(state)
     {
         super(state);
-        
+        // we only have one finset bitch
+        // contact the developers if you want more
+        // >:(
+
+        // TODO: Finish this whole mf project
+        // TODO: Implement DFS/BFS for searching for FinSet
         for (let i = 0; i < this.state.subcomponents.length; i++){
             if (this.state.subcomponents[i] instanceof FinSet) {
                 this.state.finset = this.state.subcomponents[i];
                 break;
             }
         }
+
     }
 
     add(subcomponents) {
@@ -111,6 +119,68 @@ class Rocket extends ComponentSeries{
         return this.cp;
     }
 
+    _calcMass() {
+        let mass = 0;
+        let componentQueue = [];
+
+        for (let i = 0; i < this.state.subcomponents.length; i++){
+            componentQueue.push(this.state.subcomponents[i]);
+        }
+
+        while (componentQueue.length > 0){
+            // pop a component and add its mass 
+            let pop = componentQueue[0];
+            componentQueue = componentQueue.slice(1);
+            mass += pop.mass;
+
+            // add all of pop's children to the queue
+            for (let i = 0; i < pop.state.subcomponents.length; i++){
+                componentQueue.push(pop.state.subcomponents[i]);
+            }
+        }
+
+        this.mass = mass;
+        return this.mass;
+    }
+
+    _calcCG () {
+        let mass = 0;
+        let cg = 0;
+        let componentQueue = [];
+
+        let tipPosition = 0;
+
+        for (let i = 0; i < this.state.subcomponents.length; i++){
+            componentQueue.push([this.state.subcomponents[i], tipPosition]);
+            tipPosition += this.state.subcomponents[i].length;
+        }
+
+        while (componentQueue.length > 0){
+            // pop a component and add its mass 
+            let pop = componentQueue[componentQueue.length - 1];
+            let component = pop[0];
+            let position = pop[1];
+
+            componentQueue = componentQueue.slice(0, -1);
+            
+            cg += (position + component.cg) * component.mass;
+            mass += component.mass;
+            
+            console.log(component.state.name);
+            console.log("cg " + component.cg);
+            console.log("bruh" + position + " " + component.mass);
+            console.log("--------------\n")
+
+            // add all of pop's children to the queue
+            for (let i = 0; i < component.state.subcomponents.length; i++){
+                componentQueue.push([component.state.subcomponents[i], component.state.subcomponents[i].state.position + position]);
+            }
+        }
+        
+        this.cg = cg / mass;
+        return this.cg; 
+    }
+
     _calcSurfaceArea() {
         let area = 0;
         
@@ -194,18 +264,32 @@ let rocket = new Rocket({
 let innertube = new InnerTube({
     radius: 4.5,
     innerRadius: 4,
+    length: 9, 
+    density: 0.68,
     position: 0,
     motorMount: false,
     name: "bronticulosis"
 })
 
+
+let finset = new FinSet({
+         shapeType: "elliptical",
+        numFins: 3,
+        rootChord: 10, 
+        tipChord: 5,
+        height: 5, 
+        sweepLength: 5,
+        density: 0.68,
+        thickness: 0.3,
+        position: 5
+        , name: "finass"
+})
 rocket.add([["", bt]]);
-console.log(rocket.state);
 rocket.add([["bron", innertube]])
+rocket.add([['bron', finset]])
 
-console.log(rocket.state);
 
-rocket.remove(["bron"]);
-console.log(rocket.state);
+//rocket.remove(["bron"]);
 
-console.log(rocket.state.subcomponents[0].state)
+console.log(rocket._calcMass())
+console.log(rocket._calcCG())
