@@ -10,70 +10,57 @@ const InnerTube = require('./components/InnerTube.js');
 class Rocket extends ComponentSeries{
     constructor(state)
     {
+        `
+        angle, aref, dref, v0, p, M
+    
+        `
         super(state);
         
-        for (let i = 0; i < this.state.subcomponents.length; i++){
-            if (this.state.subcomponents[i] instanceof FinSet) {
-                this.state.finset = this.state.subcomponents[i];
-                break;
-            }
-        }
+        this.assignComponents();
+    }
+
+    assignComponents() {
+        // assigns the finset and motor components
+        this.finset = this._conditionalSearch((element) => {
+            return element instanceof FinSet;
+        })[0]; // only the last finset cuz we're noobs
+
+        this.motors = this._conditionalSearch((element) => {
+            return element instanceof Motor;
+        }); //yay
     }
 
     add(subcomponents) {
         `
         subcomponents -> [[location, component], ...]
         `
+        // radioactive zone B)
+        // radioactive zone B)
+        
         subcomponents.map((info, idx) => {
-            let location = info[0] + '.';
+            //what is up, fam?
+
             let component = info[1];
-            let parentComponent = this;
-
-            while (location.indexOf('.') >= 0){
-                let splitLocation = location.indexOf(".");        // . delimit
-                let name = location.slice(0, splitLocation);
-                console.log(name + " " + splitLocation + " " + location);
-
-                parentComponent = parentComponent.search(name);
-
-                location = location.slice(splitLocation + 1); 
-            }
+            let parentComponent = this.search(info[0], returnParent = true)[0];
             
+            for (let i = 0; i < parentComponent.state.subcomponents.length; i++) {
+                if (parentComponent.state.subcomponents[i].state.name === component.state.name) {
+                    throw "bruh this component already exists you absolute dong >:(("
+                }
+            }
             parentComponent.state.subcomponents.push(component);
             
         })
-    }
 
-    search(name) {
-        if (name === ""){
-            return this; 
-        }
-
-        for (let i = 0; i < this.state.subcomponents.length; i++){
-            if (this.state.subcomponents[i].state.name === name) {
-                return this.state.subcomponents[i];
-            }   
-        }
-
-        throw "bruh this component doesn't exist u dong";
+        this.assignComponents();
     }
 
     remove(names) {
-        
+        // radioactive zone B)
+
         names.map(name => {
-            let location = name + '.';
-            let parentComponent = this;
+            let parentComponent = this.search(name, returnParent = true)[0];
 
-            while (name.indexOf('.') >= 0){
-                let splitLocation = name.indexOf(".");        // . delimit
-                let name = name.slice(0, splitLocation);
-                console.log(name + " " + splitLocation + " " + name);
-
-                parentComponent = parentComponent.search(name);
-
-                name = name.slice(splitLocation + 1); 
-            }
-            
             for (let i = 0; i < parentComponent.state.subcomponents.length; i++){
                 if (parentComponent.state.subcomponents[i].state.name === name) {
                     parentComponent.state.subcomponents.splice(i,1);
@@ -81,7 +68,70 @@ class Rocket extends ComponentSeries{
                 }   
             }
         })
+
+        this.assignComponents();
     }
+
+    search(name, returnParent = false) {
+        // radioactive zone B)
+        // searches the parent component and subcomponents
+        if (name === ""){
+            return this; 
+        }
+
+        let location = name + '.';
+        let parentComponent = this;
+
+        while (name.indexOf('.') >= 0){
+            let splitLocation = name.indexOf(".");        // . delimit
+            let name = name.slice(0, splitLocation);
+
+            for (let i = 0; i < parentComponent.state.subcomponents.length; i++) {
+                if (parentComponent.state.subcomponents[i].state.name === name) {
+                    parentComponent = parentComponent.state.subcomponents[i];
+                }
+            }
+
+            name = name.slice(splitLocation + 1); 
+        }
+        
+        for (let i = 0; i < parentComponent.state.subcomponents.length; i++){
+            if (parentComponent.state.subcomponents[i].state.name === name) {
+                return returnParent ? [parentComponent, parentComponent.state.subcomponents[i]] : parentComponent.state.subcomponents[i]; 
+            }   
+        }
+
+        throw "bruh this component doesn't exist u dong";
+    }
+
+    _conditionalSearch(foundCondition) {
+        // fancy feast
+        // fancy feast
+        // fancy feast
+
+        // it's pretty self explanatory to be honest
+
+        let queue = [];
+        let satisfied = [];
+        while (queue.length > 0) {
+            // pop
+            let pop = queue[0];
+            if (foundCondition(pop)) {
+                satisfied.push(pop);
+            }
+
+            queue = queue.slice(1);
+
+            // push
+            pop.state.subcomponents.map((subcomponent) => {
+                queue.push(subcomponent);
+            });
+        }
+
+        if (satisfied.length > 0) return satisfied;
+        throw "bro u trippin b no element inside the rocket satisfies the found condition";
+    }
+
 
     setMass(mass) {
         this.mass = mass;
@@ -160,7 +210,6 @@ class Rocket extends ComponentSeries{
         return this.cd;
 
     }
-
 
 }
 
