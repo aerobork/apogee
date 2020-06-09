@@ -4,9 +4,8 @@ const Component = require("./Component.js");
 class InnerComponent extends Component{
 
     constructor(state) {
-        super();
+        super(state);
 
-        this.state = state;
 
         this.setState();
     }
