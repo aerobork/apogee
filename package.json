@@ -1,0 +1,25 @@
+{
+  "name": "bork",
+  "version": "1.0.0",
+  "description": "a rocket simulation",
+  "main": "main.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aerobork/apogee.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aerobork/apogee/issues"
+  },
+  "homepage": "https://github.com/aerobork/apogee#readme",
+  "dependencies": {
+    "quaternion": "^1.1.0"
+  }
+}
