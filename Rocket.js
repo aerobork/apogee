@@ -3,6 +3,7 @@
 const FinSet = require("./components/FinSet.js");
 const Motor = require("./components/Motor.js");
 const OuterComponent = require('./components/OuterComponent.js');
+const AxialOuterComponent = require('./components/AxialOuterComponent.js');
 const ComponentSeries = require("./components/ComponentSeries.js");
 const InnerComponent = require("./components/InnerComponent.js");
 const BodyTube = require("./components/BodyTube.js");
@@ -17,13 +18,14 @@ class Rocket extends ComponentSeries{
     
         `
         super(state);
-        this.assignComponents();
+        
     }
 
     setState(newState) {
         for (let key in newState) {
             this.state[key] = newState[key]; 
         }
+        this.assignComponents();
         this._calcSurfaceArea();
         this._calcFinenessRatio();
         this._calcMass();
@@ -41,7 +43,7 @@ class Rocket extends ComponentSeries{
             return element instanceof FinSet;
         })[0]; // only the last finset cuz we're noobs
 
-        this.motors = this._conditionalSearch((element) => {
+    this.motors = this._conditionalSearch((element) => {
             return element instanceof Motor;
         }); //yay
     }
@@ -252,15 +254,16 @@ class Rocket extends ComponentSeries{
         let maxDiameter = 0;
         let totalLength = 0;
         this.state.subcomponents.map((component, idx) => {
-            if (!component instanceof InnerComponent && !component instanceof FinSet) {
+            if (component instanceof AxialOuterComponent) {
                 component.points.map((point, idx) => {
                     if (idx != component.points.length - 1) {
                         if (component.points[idx][0] > maxDiameter) {
                             maxDiameter = component.points[idx][0];
                         }
-                        totalLength += component.length;
                     }
                 })
+                totalLength += component.length;
+
             }
         })
         this.length = totalLength;
@@ -269,20 +272,37 @@ class Rocket extends ComponentSeries{
     }
 
     _calcDrag() {
-        let R = this.state.v0 * this.length / (1.48 * 10**-5); // Reynolds number
+        //  TODO: something about units maybe??????? values are too largito ://////////////////////////////: samdwhic
+        let R = Math.abs(this.state.v0) * this.length / (1.48 * 10**-5 * 100); // Reynolds number
         let Cfc = (1.50 * Math.log(R) - 5.6)**-2 * (1-0.1 * this.state.M**2); // compressibility-corrected skin friction coefficient
-        let skinFrictionDrag = Cfc * ((1 + 1 / 2 / this.finenessRatio) * this.surfaceArea + 
-                               (1 + 2 * this.finset.thickness / this.finset.maclength) * this.finset.surfaceArea) / this.state.aref;
+        let skinFrictionDrag = Cfc * (((1 + 1 / 2 / this.finenessRatio) * this.surfaceArea + 
+                               (1 + 2 * this.finset.state.thickness / this.finset.maclength) * this.finset.surfaceArea)) / this.state.aref;
         
         let cd = skinFrictionDrag;
 
+        /*
+        console.log("length:" + this.length);
+        console.log("v0: " + this.state.v0);
+        console.log("cd: " + cd);
+        console.log("R: " + R);
+        console.log("Cfc: " + Cfc);
+        console.log("skin friction drag:" + skinFrictionDrag);
+        console.log("fineness", this.finenessRatio);
+        console.log("surface", this.surfaceArea);
+        console.log("maclength", this.finset.maclength);
+        console.log("thickness", this.finset.state.thickness);
+        console.log("surfaceAreaFin", this.finset.surfaceArea);
+        console.log("fineness", this.finenessRatio);
+        */
+
+        // we may need to weight these based on area, but not sure
         this.state.subcomponents.map((component, idx) => {
-            cd += component.cd;
+            cd += component.surfaceArea / this.state.aref * component.cd;
+            //console.log(component.state.name + " " + component.cd);
         })
 
         this.cd = cd;
         return this.cd;
-
     }
 
 }

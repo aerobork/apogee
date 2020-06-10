@@ -16,7 +16,7 @@ class Motor extends Component {
         for (let key in newState) {
             this.state[key] = newState[key]; 
         }
-
+        this._calcMass();
         this._calcPoints();
         this._calcCG();
     }
@@ -43,6 +43,7 @@ class Motor extends Component {
                 return this.state.profile[i][1] + slope * (t - this.state.profile[i][0]);
             }
         }
+        return 0;
     }
     
 }

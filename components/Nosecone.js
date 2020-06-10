@@ -9,7 +9,7 @@ class Nosecone extends AxialOuterComponent {
             this.state.points = null;
             this.state.thickness = thickness;
             this.state.startRadius = 0;
-            this.state.endRadius = radius;
+            this.state.radius = radius;
             this.state.length = length;
             this.state.thickness = thickness;
             this.state.shapeType = shapeType;
@@ -25,27 +25,27 @@ class Nosecone extends AxialOuterComponent {
         for (let y = 0; y < this.state.length; y += 0.1) {
             switch(this.state.shapeType) {
                 case "conical": 
-                    points.push([y / this.state.length * this.state.endRadius, y]);
+                    points.push([y / this.state.length * this.state.radius, y]);
                     break;
                 case "ogive":   
-                    let rho = (this.state.length**2 + this.state.endRadius**2) * ((((2 - this.state.shapeParameter) * this.state.length)**2) 
-                            + (this.state.shapeParameter * this.state.endRadius)**2) /
-                            4 / (this.state.shapeParameter * this.state.endRadius) ** 2;
+                    let rho = (this.state.length**2 + this.state.radius**2) * ((((2 - this.state.shapeParameter) * this.state.length)**2) 
+                            + (this.state.shapeParameter * this.state.radius)**2) /
+                            4 / (this.state.shapeParameter * this.state.radius) ** 2;
                     let x = (rho - (this.state.length / this.state.shapeParameter - y)** 2) ** 0.5 - (rho - (this.state.length / this.state.shapeParameter)**2) ** 0.5;
                     points.push([x, y]);
                     break;
                 case "ellipsoid":
-                    points.push([this.state.endRadius * (1 - (1 - y / this.state.length)**2) ** 0.5, y]);
+                    points.push([this.state.radius * (1 - (1 - y / this.state.length)**2) ** 0.5, y]);
                     break;
                 case "power": 
-                    points.push([this.state.endRadius * (y / this.state.length) ** this.state.shapeParameter, y]);
+                    points.push([this.state.radius * (y / this.state.length) ** this.state.shapeParameter, y]);
                     break;
                 case "parabolic":
-                    points.push([this.state.endRadius * y / this.state.length * (2 - this.state.shapeParameter * y / this.state.length) / (2 - this.state.shapeParameter), y]);
+                    points.push([this.state.radius * y / this.state.length * (2 - this.state.shapeParameter * y / this.state.length) / (2 - this.state.shapeParameter), y]);
                     break;
                 case "haack":
                     let theta = Math.acos(1 - 2 * y / this.state.length);
-                    points.push([this.state.endRadius / Math.PI ** 0.5 * (theta - 0.5 * Math.sin(2 * theta) + this.state.shapeParameter * Math.sin(theta)**3) ** 0.5, y]);
+                    points.push([this.state.radius / Math.PI ** 0.5 * (theta - 0.5 * Math.sin(2 * theta) + this.state.shapeParameter * Math.sin(theta)**3) ** 0.5, y]);
                     break;
             }
         }
@@ -139,5 +139,15 @@ class Nosecone extends AxialOuterComponent {
 }
 
 module.exports = Nosecone;
-//et nose = new Nosecone(2.5, 15, "haack", 0, 0.68, 0.2, 0, 0, 0, 0, 0);
+/*
+let nose = new Nosecone({
+    radius: 2.5, 
+    length: 15,
+    shapeType: "ogive",
+    shapeParameter: 1, 
+    density: 0.68, 
+    thickness: 0.2
+})
 
+console.log(nose.mass);
+*/

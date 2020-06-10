@@ -45,7 +45,7 @@ const OuterComponent = require('./OuterComponent.js')
 
     setState(newState) {
         for (let key in newState) {
-            this.state[key] = newState[key];
+           this.state[key] = newState[key];
         }
 
         this._calcPoints();
@@ -56,6 +56,8 @@ const OuterComponent = require('./OuterComponent.js')
         this._calcCP();
         this._calcCG();
         this._calcMass();
+        this._calcSurfaceArea();
+        this._calcCD();
 
     }
 
@@ -229,6 +231,7 @@ const OuterComponent = require('./OuterComponent.js')
         maclength /= this.area;
 
         this.cp = xmac - maclength / 4;
+        this.maclength = maclength;
         return this.cp;
     
     }
@@ -267,20 +270,21 @@ const OuterComponent = require('./OuterComponent.js')
     }
 
     _calcCD() {
+        //console.log("finset M: " + this.state.M);
         let finDragLE = 0;
         let finDragTE = 0;
 
         switch(this.state.crossSection) {
             case "rounded":
-                finDragLE = (1 - M**2)**(-0.417) - 1;
-                finDragTE = (0.12 + 0.13 * M**2) / 2;
+                finDragLE = (1 - this.state.M**2)**(-0.417) - 1;
+                finDragTE = (0.12 + 0.13 * this.state.M**2) / 2;
                 break;
             case "square":
-                finDragLE = 0.85 * (1 + M**2 / 4 + M**4 / 40);
-                finDragTE = 0.12 + 0.13 * M**2;
+                finDragLE = 0.85 * (1 + this.state.M**2 / 4 + this.state.M**4 / 40);
+                finDragTE = 0.12 + 0.13 * this.state.M**2;
                 break;
             case "airfoil":
-                finDragLE = (1 - M**2)**(-0.417) - 1;
+                finDragLE = (1 - this.state.M**2)**(-0.417) - 1;
                 break;
         }
 

@@ -26,7 +26,11 @@ class BodyTube extends AxialOuterComponent {
 
         return this.cg;
     } 
-    
+
+    _calcCD() {
+        this.cd = 0;
+        return this.cd;
+    }
 }
 
 module.exports = BodyTube;

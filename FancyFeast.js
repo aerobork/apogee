@@ -4,12 +4,13 @@ let apogee = require('./Imports.js');
 
 let nosecone = new apogee.Nosecone({
     radius: 2.5,
-    length: 15, 
-    shapeType: "ogive",
+    length: 45, 
+    shapeType: "conical",
     shapeParameter: 1.0,
-    density: 0.68,
+    density: 1.85,
     thickness: 0.2,
-    filled: false
+    filled: false,
+    name: "nosecone!"
 })
 
 let E6 = [[0.0, 0.0], [0.047, 10.866], [0.127, 11.693], [0.19, 11.9], [0.316, 11.622], [0.522, 10.593], [0.743, 9.287], [0.996, 7.842], [1.249, 6.19], [1.47, 5.296], [1.787, 4.747], [2.372, 4.471], [3.02, 4.403], [3.747, 4.264], [4.49, 4.403], [5.375, 4.333], [6.087, 4.264], [6.719, 4.264], [6.877, 4.196], [6.957, 3.783], [7.004, 2.614], [7.036, 1.513], [7.083, 0.55], [7.12, 0.0]];
@@ -19,7 +20,7 @@ let motor = new apogee.Motor({
     type: "reloadable", 
     length: 7.0,
     diameter: 2.4,
-    mass: 21.5,
+    mass: 53,
     impulse: 37.5,
     profile: E6,
     position: 0,
@@ -56,26 +57,33 @@ let finset = new apogee.FinSet({
     density: 0.68,
     thickness: 0.3,
     position: 0,
-    name: "trapFins"
+    name: "trapFins",
+    crossSection: "square"
 })
 
 let rocket = new apogee.Rocket({
     subcomponents: [nosecone, bt, finset] 
 })
 
+
 let sim1 = new apogee.Simulation(rocket, {
     aref: 2.5**2 * Math.PI,
     dref: 40,
-    p: 0.001225,    // g / cm^3, 1.225
+    p: 1.225,    // kg / m^3
     mach: 343
 })
 
 sim1.reset();
 
-for (let i = 0; i < 1000; i++){
-    sim1.step(0.02);
-    if (i % 10 == 0) {
-        console.log(`${sim1.simulation.altitude} ${sim1.simulation.velocity} ${sim1.simulation.acceleration}`)
+console.log(rocket.cd);
+
+console.log('-----------\n\n\n\n\n\n\n\n\n\n\n');
+for (let i = 0; i < 2000; i++){
+    sim1.step(0.01);
+    if (i % 20 == 0) {
+        console.log(`t: ${sim1.simulation.time}, alt: ${sim1.simulation.altitude}, vel: ${sim1.simulation.velocity} accel: ${sim1.simulation.acceleration} ${rocket.cd}`);
+        console.log("------------------------------");
     }
+
 }
 

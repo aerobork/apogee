@@ -55,6 +55,9 @@ class AxialOuterComponent extends OuterComponent {
 
         this._calcNormal();
         this._calcLift();
+        this._calcSurfaceArea();
+        this._calcCD();
+        
 
     }
 
@@ -225,6 +228,10 @@ class AxialOuterComponent extends OuterComponent {
 
         this.surfaceArea = area;
         return this.surfaceArea;
+    }
+
+    _calcCD() {
+        // calls subclass method
     }
 }
 

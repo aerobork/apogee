@@ -8,7 +8,14 @@ class Component {
         if (!this.state.subcomponents){
             this.state.subcomponents = [];
         }
+        
+        this.setState();
+
     }
+
+    setState() {
+
+    } 
 
     setMass(mass) {
         this.mass = mass;
