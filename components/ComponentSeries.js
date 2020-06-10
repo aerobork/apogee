@@ -19,6 +19,7 @@ class ComponentSeries extends Component {
         `
 
         super(state);
+        this.setState();
     }
 
     setState(newState) {

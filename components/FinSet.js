@@ -11,14 +11,14 @@ const OuterComponent = require('./OuterComponent.js')
         super(state);
 
         this.state = state
-        this._setState();
+        this.setState();
     }
 
     _calcPoints() {
         let points = [];
 
         switch(this.state.shapeType) {
-            case "trapezoid":
+            case "trapezoidal":
                 points = [[0,0], [this.state.height, this.state.sweepLength], [this.state.height, this.state.sweepLength + this.state.tipChord], 
                           [0, this.state.rootChord]];
                 break;
@@ -33,7 +33,6 @@ const OuterComponent = require('./OuterComponent.js')
                     points.push([x,y]);
                 }
                 points.push([0, this.state.rootChord]);
-                console.log(points);
                 break;
             case "freeform": 
                 points = this.state.freeFormPoints;
@@ -44,7 +43,7 @@ const OuterComponent = require('./OuterComponent.js')
         return this.points;
     }
 
-    _setState(newState) {
+    setState(newState) {
         for (let key in newState) {
             this.state[key] = newState[key];
         }
@@ -162,7 +161,6 @@ const OuterComponent = require('./OuterComponent.js')
         }
 
         this.cg = com / mass;
-        console.log('mass bruh ' + mass)
         return this.cg;
     }
 
@@ -230,8 +228,6 @@ const OuterComponent = require('./OuterComponent.js')
         xmac /= this.area;
         maclength /= this.area;
 
-        console.log("xmac: " + xmac);
-        console.log("mac length: " + maclength);
         this.cp = xmac - maclength / 4;
         return this.cp;
     
@@ -336,7 +332,7 @@ if (require.main === module){
     })
 
 
-    //fin._setState({});
+    //fin.setState({});
     console.log("points: " + fin.points);
     console.log("area: " + fin.area);
     console.log("cp: " + fin.cp);

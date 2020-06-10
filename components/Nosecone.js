@@ -20,7 +20,6 @@ class Nosecone extends AxialOuterComponent {
     }
 
     _calcPoints() {
-        console.log(this.state.shapeType);
         let points = [];
 
         for (let y = 0; y < this.state.length; y += 0.1) {
@@ -139,9 +138,6 @@ class Nosecone extends AxialOuterComponent {
 
 }
 
-let nose = new Nosecone(2.5, 15, "haack", 0, 0.68, 0.2, 0, 0, 0, 0, 0);
-
-console.log(nose.mass);
-console.log(nose.cg);
-console.log(nose.cp);
+module.exports = Nosecone;
+//et nose = new Nosecone(2.5, 15, "haack", 0, 0.68, 0.2, 0, 0, 0, 0, 0);
 

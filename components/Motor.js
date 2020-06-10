@@ -1,16 +1,18 @@
 "use strict"
 
+const Component = require('./Component.js');
+
 class Motor extends Component {
     constructor(state) {
         
         `
-            manufacturer, designation, type, length, diameter, mass, impulse, profile, position
+            manufacturer, designation, type, length, diameter, mass, impulse, profile, position, name
         `
 
         super(state);
     }
 
-    _setState(newState) {
+    setState(newState) {
         for (let key in newState) {
             this.state[key] = newState[key]; 
         }
@@ -42,4 +44,7 @@ class Motor extends Component {
             }
         }
     }
+    
 }
+
+module.exports = Motor;
