@@ -1,13 +1,13 @@
 "use strict"
 
 const FinSet = require("./components/FinSet.js");
+const Motor = require("./components/Motor.js");
 const OuterComponent = require('./components/OuterComponent.js');
 const ComponentSeries = require("./components/ComponentSeries.js");
 const InnerComponent = require("./components/InnerComponent.js");
 const BodyTube = require("./components/BodyTube.js");
 const InnerTube = require('./components/InnerTube.js');
 
-console.log(FinSet);
 
 class Rocket extends ComponentSeries{
     constructor(state)
@@ -17,8 +17,22 @@ class Rocket extends ComponentSeries{
     
         `
         super(state);
-        
         this.assignComponents();
+    }
+
+    setState(newState) {
+        for (let key in newState) {
+            this.state[key] = newState[key]; 
+        }
+        this._calcSurfaceArea();
+        this._calcFinenessRatio();
+        this._calcMass();
+        this._calcCP();
+        this._calcCG();
+        this._calcDrag();
+        this._calcLift();
+        this._calcNormal();
+        
     }
 
     assignComponents() {
@@ -113,7 +127,7 @@ class Rocket extends ComponentSeries{
 
         // it's pretty self explanatory to be honest
 
-        let queue = [];
+        let queue = this.state.subcomponents;
         let satisfied = [];
         while (queue.length > 0) {
             // pop
@@ -210,10 +224,6 @@ class Rocket extends ComponentSeries{
             cg += (position + component.cg) * component.mass;
             mass += component.mass;
             
-            console.log(component.state.name);
-            console.log("cg " + component.cg);
-            console.log("bruh" + position + " " + component.mass);
-            console.log("--------------\n")
 
             // add all of pop's children to the queue
             for (let i = 0; i < component.state.subcomponents.length; i++){
@@ -277,6 +287,8 @@ class Rocket extends ComponentSeries{
 
 }
 
+module.exports = Rocket;
+
 /*
     skin friction drag = C_fc * ((1 + 1 / 2 / f_B) * A_body + (1 + 2 * t / c) * A_fins) / A_ref
     body pressure drag
@@ -291,6 +303,7 @@ class Rocket extends ComponentSeries{
 
 */
 
+/*
 let bt = new BodyTube({
     radius: 5,
     innerRadius: 4.5, 
@@ -336,3 +349,4 @@ rocket.add([['bron', finset]])
 
 console.log(rocket._calcMass())
 console.log(rocket._calcCG())
+*/
