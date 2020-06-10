@@ -24,5 +24,5 @@ const Simulation =  require('./Simulation.js');
 module.exports = {AxialOuterComponent, BodyTube, Bulkhead, CenteringRing, Component, ComponentSeries, Coupler, EngineBlock, FinSet, InnerComponent, InnerTube, MassComponent,
                   Motor, Nosecone, OuterComponent, Parachute, Shockcord, Streamer, Transition, Rocket, Simulation};
 
-
+//console.log(module.exports);
 
