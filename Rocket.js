@@ -272,13 +272,29 @@ class Rocket extends ComponentSeries{
     }
 
     _calcDrag() {
-        //  TODO: something about units maybe??????? values are too largito ://////////////////////////////: samdwhic
-        let R = Math.abs(this.state.v0) * this.length / (1.48 * 10**-5 * 100); // Reynolds number
-        let Cfc = (1.50 * Math.log(R) - 5.6)**-2 * (1-0.1 * this.state.M**2); // compressibility-corrected skin friction coefficient
+        //  TODO: something about units maybe??????? values are too largito ://////////////////////////////: samdwhic\
+        let Rs = 2 * 10 ** (-6);
+
+        let Rcrit = 51 * (Rs / (this.length / 100)) ** (-1.039) 
+        let R = Math.abs(this.state.v0 ) * (this.length / 100) / (1.48 * 10**-5 * 100); // Reynolds number
+
+       // console.log(this.state.v0);
+
+        let Cfc;
+        if (R < Rcrit) {
+            
+            Cfc = (1.50 * Math.log(R) - 5.6)**-2 * (1-0.1 * this.state.M**2); // compressibility-corrected skin friction coefficient
+        }else {
+            Cfc = 0.032 * (Rs / (this.length / 100.)) ** 0.2;
+        }
+
+        console.log(this.state.M + " bruh");
+        
         let skinFrictionDrag = Cfc * (((1 + 1 / 2 / this.finenessRatio) * this.surfaceArea + 
                                (1 + 2 * this.finset.state.thickness / this.finset.maclength) * this.finset.surfaceArea)) / this.state.aref;
+        let baseDrag = 0//.12 + 0.13 * this.state.M **2;
         
-        let cd = skinFrictionDrag;
+        let cd = skinFrictionDrag + baseDrag;
 
         /*
         console.log("length:" + this.length);
@@ -295,13 +311,18 @@ class Rocket extends ComponentSeries{
         console.log("fineness", this.finenessRatio);
         */
 
+        let bruh = cd;
+
         // we may need to weight these based on area, but not sure
+        let res = "";
         this.state.subcomponents.map((component, idx) => {
             cd += component.surfaceArea / this.state.aref * component.cd;
-            //console.log(component.state.name + " " + component.cd);
+            res += component.state.name + " " + component.cd + ", ";
         })
 
-        this.cd = cd;
+        console.log(res + " cd: " + bruh);
+
+        this.cd = skinFrictionDrag; //cd;
         return this.cd;
     }
 
@@ -319,6 +340,7 @@ module.exports = Rocket;
         Aref = full frontal area
         rounded leading edge presure drag: eq 3.89, pg 49
         rectangular: eq 3.90, pg 50
+    baseDrag: 0.12 + 0.13 * M^2
 
 
 */

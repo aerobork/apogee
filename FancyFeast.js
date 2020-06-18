@@ -1,4 +1,4 @@
-// TODO: something about finset????????????????????????????????????? boof
+// TODO: something about finset????????????????????????????????????? 
 
 let apogee = require('./Imports.js');
 
@@ -38,7 +38,7 @@ let innertube = new apogee.InnerTube({
     subcomponents: [motor]
 })
 
-let bt = new apogee.BodyTube({
+let bt = new apogee.BodyTube({  
     radius: 2.5,
     innerRadius: 2.3, 
     length: 25,
@@ -52,7 +52,7 @@ let finset = new apogee.FinSet({
     numFins: 3,
     rootChord: 5, 
     tipChord: 5,
-    height: 3, 
+    height: 7, 
     sweepLength: 0,
     density: 0.68,
     thickness: 0.3,
@@ -70,7 +70,7 @@ let sim1 = new apogee.Simulation(rocket, {
     aref: 2.5**2 * Math.PI,
     dref: 40,
     p: 1.225,    // kg / m^3
-    mach: 343
+    mach: 340.3
 })
 
 sim1.reset();
@@ -78,10 +78,10 @@ sim1.reset();
 console.log(rocket.cd);
 
 console.log('-----------\n\n\n\n\n\n\n\n\n\n\n');
-for (let i = 0; i < 2000; i++){
-    sim1.step(0.01);
+for (let i = 0; i < 800; i++){
+    sim1.step(0.05);
     if (i % 20 == 0) {
-        console.log(`t: ${sim1.simulation.time}, alt: ${sim1.simulation.altitude}, vel: ${sim1.simulation.velocity} accel: ${sim1.simulation.acceleration} ${rocket.cd}`);
+        console.log(`t: ${sim1.simulation.time}, alt: ${sim1.simulation.altitude}, vel: ${sim1.simulation.velocity} accel: ${sim1.simulation.acceleration} cd: ${rocket.cd}`);
         console.log("------------------------------");
     }
 

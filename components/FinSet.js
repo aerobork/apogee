@@ -285,6 +285,7 @@ const OuterComponent = require('./OuterComponent.js')
                 break;
             case "airfoil":
                 finDragLE = (1 - this.state.M**2)**(-0.417) - 1;
+                finDragTE = 0;
                 break;
         }
 
