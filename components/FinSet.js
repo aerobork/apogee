@@ -205,6 +205,9 @@ const OuterComponent = require('./OuterComponent.js')
             xmac += xmacB;
             // console.log("xmac: " + xmac);
 
+
+            // TODO: Might want to check this
+
             let maclengthB = l**2 * h + l * (m1 - m2) * h**2 + (m1 - m2)**2 * h**3 / 3;
             //let maclengthA = l**2 * x + l * (m1 - m2) * x**2 + (m1 - m2)**2 * x**3 / 3;
             maclength += maclengthB;
@@ -295,6 +298,16 @@ const OuterComponent = require('./OuterComponent.js')
 
     _calcSurfaceArea() {
         let area = 2 * this.area;
+        let frontalArea = 0 ;
+
+        // TODO: Frontal surface area calculations break if the fin is cringeass
+
+        // How to fix the above problem
+        // Track the largestX, if a new largestX occurs add the section that sticks out onto the frontal area
+        // nathan you frickin cringeass yo uare not going to understand this in two weeks. - nathan (two weeks ago)
+
+        let largestX = 0;
+
 
         this.points.map((point, idx) => {
             if (idx != this.points.length - 1) {
@@ -303,11 +316,20 @@ const OuterComponent = require('./OuterComponent.js')
 
                 let edgeLength = ((current[0] - next[0])**2 + (current[1] - next[1])**2)**0.5;
                 area += edgeLength * this.state.thickness;
+
+                if (current[0] > largestX || next[0] > largestX) {
+                    largestX = Math.max(current[0], next[0]);
+                }
+                
+               
             }
         })
 
         this.surfaceArea = area * this.state.numFins;
-        return this.surfaceArea;
+
+        this.frontalSurfaceArea = largestX * this.state.thickness * this.state.numFins;
+
+        return [this.surfaceArea, this.frontalSurfaceArea];
     }
 
 

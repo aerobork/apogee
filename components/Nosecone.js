@@ -131,6 +131,13 @@ class Nosecone extends AxialOuterComponent {
         return this.cd;
     }
 
+    _calcSurfaceArea() {
+        super._calcSurfaceArea();
+
+        this.frontalSurfaceArea = this.state.radius ** 2 * Math.PI; //= this.surfaceArea;
+        return [this.surfaceArea, this.frontalSurfaceArea];
+
+    }
 
     toggleFilled() {
         super.setState({filled: !this.state.filled});

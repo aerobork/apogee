@@ -226,8 +226,9 @@ class AxialOuterComponent extends OuterComponent {
             }
         })
 
+        this.frontalSurfaceArea = 0;
         this.surfaceArea = area;
-        return this.surfaceArea;
+        return [this.surfaceArea, this.frontSurfaceArea];
     }
 
     _calcCD() {

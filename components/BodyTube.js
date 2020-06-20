@@ -31,6 +31,15 @@ class BodyTube extends AxialOuterComponent {
         this.cd = 0;
         return this.cd;
     }
+
+    _calcSurfaceArea() {
+        let sa = super._calcSurfaceArea();
+    
+        this.frontalSurfaceArea = (this.state.radius ** 2) * Math.PI;
+        
+        return [this.surfaceArea, this.frontalSurfaceArea];
+
+    }
 }
 
 module.exports = BodyTube;
