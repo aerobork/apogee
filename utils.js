@@ -29,4 +29,16 @@ exports.equalTo = function equalTo(a, b, threshold = 0.0001) {
     return (Math.abs(a - b) < threshold); 
 }
 
+//rk4 that mf
+exports.rk4 = function rk4(h, x, y, func) {
+    let K1 = h * func(x, y);
+    let K2 = h * func(x + h / 2, y + K1 / 2);
+    let K3 = h * func(x + h / 2, y + K2 / 2);
+    let K4 = h * func(x + h, y + K3);
+
+    let ynext = y + K1 / 6 + K2 / 3 + K3 / 3 + K4 / 6;
+
+    return ynext;
+}
+
 module.exports = exports;
