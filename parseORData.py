@@ -26,4 +26,4 @@ with open("desktop.csv", 'r') as f:
 
     print(keys)
     #print(data['VerticalVelocity'])
-    print(data['DragForce'])
+    print(data['Thrust'])

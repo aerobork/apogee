@@ -78,12 +78,10 @@ sim1.reset();
 console.log(rocket.cd);
 
 console.log('-----------\n\n\n\n\n\n\n\n\n\n\n');
-for (let i = 0; i < 600; i++){
-    sim1.step(0.025);
-    if (i % 20 == 0) {
-        console.log(`t: ${sim1.simulation.time}, alt: ${sim1.simulation.altitude}, vel: ${sim1.simulation.velocity} accel: ${sim1.simulation.acceleration} cd: ${rocket.cd}`);
-        console.log("------------------------------");
-    }
+
+for (let i = 0; i < 20; i++){
+    sim1.step(0.05);
+    
 
 }
 

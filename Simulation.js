@@ -3,6 +3,7 @@
 const Rocket = require("./Rocket.js");
 const Quaternion = require("quaternion");
 const Utils = require("./utils");
+const Constants = require("./constants");
 
 class Simulation {
 
@@ -71,6 +72,8 @@ class Simulation {
             0.51085, 0.51541, 0.5194, 0.52291, 0.52602, 0.52875, 0.53116, 0.53327, 0.53511, 0.53672, 0.53813, 0.53938, 0.54054, 0.5417, 0.54303, 0.5449, 0.54842, 0.55675, 0.57496, 0.58129, 0.58645, 0.59086, 0.59471, 0.59809, 0.60109, 0.60377, 0.60619, 0.60841, 0.61051, 0.61261, 0.61491, 0.61782, 0.62256, 0.6322, 0.65089, 0.65683, 0.66172, 0.66594, 0.66967, 0.67303, 0.67615, 0.67914, 0.68219, 0.68558, 0.69004, 0.6979, 0.7128, 0.72183, 0.72797, 0.73303, 0.73748, 0.74155, 0.74545, 0.74944, 0.75397, 0.76023, 0.77105, 0.78798, 0.79498, 0.80065, 0.80572, 0.81058, 0.81569, 0.82189, 0.8319, 0.84792, 0.85737, 0.86413, 0.87015, 0.87618, 0.88318, 0.89416, 0.90975, 0.92047, 0.92804, 0.93524, 0.94352, 0.95641, 0.97169, 0.98252, 0.99115, 1.0007, 1.0151, 1.03, 1.0418, 1.0523, 1.0664, 1.0809, 1.0952, 1.1077, 1.1217, 1.1358, 1.1497, 1.1633, 1.1771, 1.1907, 1.2042, 1.2176, 1.2309, 1.2442, 1.2572, 1.2703, 1.2832, 1.296, 1.3087, 1.3214, 1.3338, 1.3462, 1.3585, 1.3707, 1.3827, 1.3947, 1.4066, 1.4183, 1.4299, 1.4414, 1.4528, 1.4641, 1.4753, 1.4863, 1.4972, 1.5081, 1.5188, 1.5294, 1.5398, 1.5502, 1.5605, 1.5706, 1.5806, 1.5905, 1.6003, 1.61, 1.6196, 1.629, 1.6384, 1.6476, 1.6567, 1.6657, 1.6747, 1.6834, 1.6921, 1.7007, 1.7092, 1.7175, 1.7258, 1.7339, 1.742, 1.7499, 1.7578, 1.7655, 1.7731, 1.7806, 1.7881, 1.7954, 1.8026, 1.8098, 1.8168, 1.8237, 1.8306, 1.8373, 1.844, 1.8506, 1.857, 1.8634, 1.8697, 1.8759, 1.882, 1.888, 1.894, 1.8998, 1.9056, 
             1.9113, 1.9169, 1.9224, 1.9279, 1.9332, 1.9385, 1.9437, 1.9488, 1.9539, 1.9588, 1.9637, 1.9686, 1.9733, 1.978, 1.9826, 1.9871, 1.9916, 1.996, 2.0003, 2.0046, 2.0088, 2.0129, 2.017, 2.021, 2.025, 2.0288, 2.0327, 2.0364, 2.0401];
         
+        this.thrusts = Constants.thrusts;
+
         this.bonusCounter = 0
 
         this.reset();
@@ -81,12 +84,12 @@ class Simulation {
 
         this.simulation = {
             orientation: new Quaternion(1, 0, 0, 0),                // rad + no dimension + imag + real + fake + maybe + banned + [REDACTED] + alien
-            altitude: 0,                                            // m
-            velocity: 0,                                            // m/s
+            altitude: 0.050015,                                            // m
+            velocity: 1.8007,                                            // m/s
             acceleration: 0,                                        // m/s^2
             position: [0, 0, 0],                                    // m
             time: 0,                                                // s
-            v0: 0,
+            v0: 1.8007,
             M: 0,
             angle: 0,
         }
@@ -124,7 +127,11 @@ class Simulation {
         
         let t = this.simulation.time;
         
-        let thrustForce = this.rocket.motors[0].interpolateProfile(t); // currently only uses the first motor      
+        let thrustForce = this.thrusts[this.counter]
+        //let thrustForce = this.rocket.motors[0].interpolateProfile(t + 0.0812); // currently only uses the first motor     
+        // this 0.0812 offset is to be compatible with openrocket data, this should be removed in production 
+
+
    
         // N
         let norm = 0.5 * this.state.p * this.simulation.velocity ** 2 * this.state.aref / 10000; // aref is originally in cm^2
@@ -140,11 +147,16 @@ class Simulation {
 
         let force = -1 * axialDragForce + thrustForce + axialGravityForce;
 
+        if (this.simulation.time < 1 && force < 0) {
+            force = 0
+        }
+
         // none of this is right
 
         this.simulation.acceleration = force / this.rocket.mass * 1000;
 
         // rk4 that mf
+        
         this.simulation.velocity = Utils.rk4(dt, this.simulation.time, this.simulation.velocity, () => {
             return this.simulation.acceleration;
         })
@@ -153,6 +165,7 @@ class Simulation {
             return this.simulation.velocity;
         })
         
+
         //this.simulation.velocity = this.velocities[this.counter]; // openrocket numbers
 
         
@@ -164,20 +177,22 @@ class Simulation {
         //console.log(t);
 
         //TODO: Bruh
-        if (false || Math.abs((t * 5) % 2 - 0) < 0.1) {
-            console.log(`drag: ${axialDragForce}, velocity: ${this.simulation.velocity}, gravity: ${axialGravityForce}`)
-        }
         
-        console.log(`ourDragF: ${dragForce} vs theirDragF: ${this.dragForces[this.counter - 1]}, ratio: ${dragForce/this.dragForces[this.counter - 1]}`);
-        console.log(`ourCD: ${this.rocket.cd} vs theirCD: ${this.axialDragCoefficients[this.counter - 1]}, ratio: ${this.rocket.cd/this.axialDragCoefficients[this.counter - 1]}`);
         
-        console.log(`ourAccel: ${this.simulation.acceleration} vs theirAccel: ${this.accelerations[this.counter - 1]}, ratio: ${this.simulation.acceleration/this.accelerations[this.counter - 1]}`);
+        console.log(`ourDragF: ${dragForce} vs theirDragF: ${this.dragForces[this.counter]}, ratio: ${dragForce/this.dragForces[this.counter]}`);
+        console.log(`ourCD: ${this.rocket.cd} vs theirCD: ${this.axialDragCoefficients[this.counter]}, ratio: ${this.rocket.cd/this.axialDragCoefficients[this.counter]}`);
 
-        console.log(`ourAlt: ${this.simulation.altitude} vs theirAlt: ${this.altitudes[this.counter]}, ratio: ${this.simulation.altitude/this.altitudes[this.counter]}`);
+        console.log(`thrustForce: ${thrustForce}`)
 
-        if (this.bonusCounter % 2 == 0){
-            this.counter += 1;
-        }
+        console.log(`ourVel: ${this.simulation.velocity} vs theirVel: ${this.velocities[this.counter + 1]}, ratio: ${this.simulation.velocity/this.velocities[this.counter + 1]}`);
+        
+        console.log(`ourAccel: ${this.simulation.acceleration} vs theirAccel: ${this.accelerations[this.counter]}, ratio: ${this.simulation.acceleration/this.accelerations[this.counter]}`);
+
+        console.log(`ourAlt: ${this.simulation.altitude} vs theirAlt: ${this.altitudes[this.counter + 1]}, ratio: ${this.simulation.altitude/this.altitudes[this.counter + 1]}`);
+
+        //if (this.bonusCounter % 2 == 0){
+        this.counter += 1;
+        //}
 
         this.bonusCounter += 1;
     }
